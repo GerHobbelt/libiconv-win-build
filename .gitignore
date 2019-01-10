@@ -17,11 +17,14 @@
 *.tlh
 *.bak
 *.[Cc]ache
-#*.ilk
+*.exp
+*.idb
+*.ilk
 *.log
 #*.lib
 *.sbr
 *.sdf
+*.tmp
 *.opensdf
 *.unsuccessfulbuild
 ipch/
