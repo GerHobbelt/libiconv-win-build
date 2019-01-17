@@ -1,5 +1,4 @@
-﻿# libiconv for Windows
-----------------------
+# libiconv for Windows
 
 libiconv for Windows (Microsoft Visual Studio Compiler) based on [GNU libiconv][1]
 
@@ -17,14 +16,11 @@ With pre-built configurations:
 - Debug x64
 - Debug Static x64
 
-Code base on [GNU libiconv][1]  
-and this article：[How to Build libiconv with Microsoft Visual Studio / PARK Youngho][2]  
-Thanks
+Code based on [GNU libiconv][1] and this article：[How to Build libiconv with Microsoft Visual Studio / PARK Youngho][2]
 
-----------------------
 ## Licensing
 
-Depend on GNU libiconv [LGPL3.0][3] 
+Depends on GNU libiconv [LGPL3.0][3] 
 
   [1]: https://www.gnu.org/software/libiconv
   [2]: http://www.codeproject.com/Articles/302012/How-to-Build-libiconv-with-Microsoft-Visual-Studio
