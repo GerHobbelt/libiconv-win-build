@@ -434,7 +434,7 @@ SET(BROKEN_WCHAR_H "0")
 SET(HAVE_WCHAR_T "1")
 
 CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/iconvconf.h.cmake-in ${CMAKE_CURRENT_BINARY_DIR}/iconvconf.h )
-CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/include/iconv.h.in ${CMAKE_CURRENT_BINARY_DIR}/include/iconv.h @ONLY)
+CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/include/iconv.h.build.in ${CMAKE_CURRENT_BINARY_DIR}/include/iconv.h @ONLY)
 CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/libcharset/include/libcharset.h.in ${CMAKE_CURRENT_BINARY_DIR}/libcharset/include/libcharset.h)
 CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/libcharset/include/localcharset.h.in ${CMAKE_CURRENT_BINARY_DIR}/libcharset/include/localcharset.h)
 #
