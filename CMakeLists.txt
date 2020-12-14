@@ -15,6 +15,9 @@ include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 conan_define_targets()
 
+if(BUILD_SHARED_LIBS)
+    include (GenerateExportHeader)
+endif()
 
 SET(LIBICONV_VERSION "1.15.0")
 SET(LIBICONV_SOVERSION "1")
@@ -484,16 +487,19 @@ target_include_directories(iconv
     PUBLIC
         $<INSTALL_INTERFACE:include>
     )
-    
-if (NOT BUILD_SHARED_LIBS)
+
+if(BUILD_SHARED_LIBS)
+    generate_export_header(iconv EXPORT_MACRO_NAME LIBICONV_DLL_EXPORTED)
+else()
     set_target_properties(iconv PROPERTIES INTERFACE_COMPILE_DEFINITIONS "LIBICONV_STATIC")
 endif()
 
 # Install
 install(FILES 
-	${CMAKE_CURRENT_BINARY_DIR}/include/iconv.h
-	DESTINATION include
-	)
+    ${CMAKE_CURRENT_BINARY_DIR}/include/iconv.h
+    ${CMAKE_BINARY_DIR}/iconv_export.h
+    DESTINATION include
+    )
 
 install(TARGETS iconv
     EXPORT Targets
