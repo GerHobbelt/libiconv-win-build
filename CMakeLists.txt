@@ -15,6 +15,9 @@ include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 conan_define_targets()
 
+if(BUILD_SHARED_LIBS)
+    include (GenerateExportHeader)
+endif()
 
 SET(LIBICONV_VERSION "1.15.0")
 SET(LIBICONV_SOVERSION "1")
@@ -434,7 +437,7 @@ SET(BROKEN_WCHAR_H "0")
 SET(HAVE_WCHAR_T "1")
 
 CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/iconvconf.h.cmake-in ${CMAKE_CURRENT_BINARY_DIR}/iconvconf.h )
-CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/include/iconv.h.in ${CMAKE_CURRENT_BINARY_DIR}/include/iconv.h @ONLY)
+CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/include/iconv.h.build.in ${CMAKE_CURRENT_BINARY_DIR}/include/iconv.h @ONLY)
 CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/libcharset/include/libcharset.h.in ${CMAKE_CURRENT_BINARY_DIR}/libcharset/include/libcharset.h)
 CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/libcharset/include/localcharset.h.in ${CMAKE_CURRENT_BINARY_DIR}/libcharset/include/localcharset.h)
 #
@@ -484,19 +487,22 @@ target_include_directories(iconv
     PUBLIC
         $<INSTALL_INTERFACE:include>
     )
-    
-if (NOT BUILD_SHARED_LIBS)
+
+if(BUILD_SHARED_LIBS)
+    generate_export_header(iconv EXPORT_MACRO_NAME LIBICONV_DLL_EXPORTED)
+else()
     set_target_properties(iconv PROPERTIES INTERFACE_COMPILE_DEFINITIONS "LIBICONV_STATIC")
 endif()
 
 # Install
 install(FILES 
-	${CMAKE_CURRENT_BINARY_DIR}/include/iconv.h
-	DESTINATION include
-	)
+    ${CMAKE_CURRENT_BINARY_DIR}/include/iconv.h
+    ${CMAKE_BINARY_DIR}/iconv_export.h
+    DESTINATION include
+    )
 
 install(TARGETS iconv
-    EXPORT Targets
+    EXPORT ${PROJECT_NAME}Targets
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
     RUNTIME DESTINATION bin
@@ -507,35 +513,29 @@ install(TARGETS iconv
 #
 # Export
 #
+# Package configuration
 include(CMakePackageConfigHelpers)
-
 write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
     VERSION ${PROJECT_VERSION}
     COMPATIBILITY SameMajorVersion
     )
-
 configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/LibraryConfig.cmake.in"
     "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
     @ONLY
     )
-
 install(
     FILES
         "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
         "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
     DESTINATION
-        . # Root Directory
+        ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
     )
-
-install(
-    FILES
-        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-    DESTINATION
-        share/cmake/${PROJECT_NAME}/
+export(EXPORT ${PROJECT_NAME}Targets
+    FILE "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Targets.cmake"
+    NAMESPACE ${PROJECT_NAME}::
     )
-
-install(EXPORT Targets
-    FILE ${PROJECT_NAME}Targets.cmake
-    DESTINATION share/cmake/${PROJECT_NAME}
-    )
+install(EXPORT ${PROJECT_NAME}Targets
+    NAMESPACE ${PROJECT_NAME}::
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+)

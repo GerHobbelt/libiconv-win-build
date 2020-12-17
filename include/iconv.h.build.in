@@ -20,13 +20,10 @@
 #ifndef _LIBICONV_H
 #define _LIBICONV_H
 
+#include "iconv_export.h"
+
 #define _LIBICONV_VERSION 0x010F    /* version number: (major<<8) + minor */
 
-#if @HAVE_VISIBILITY@ && BUILDING_LIBICONV
-#define LIBICONV_DLL_EXPORTED __attribute__((__visibility__("default")))
-#else
-#define LIBICONV_DLL_EXPORTED
-#endif
 extern LIBICONV_DLL_EXPORTED @DLL_VARIABLE@ int _libiconv_version; /* Likewise */
 
 /* We would like to #include any system header file which could define
