@@ -502,7 +502,7 @@ install(FILES
     )
 
 install(TARGETS iconv
-    EXPORT Targets
+    EXPORT ${PROJECT_NAME}Targets
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
     RUNTIME DESTINATION bin
@@ -513,35 +513,29 @@ install(TARGETS iconv
 #
 # Export
 #
+# Package configuration
 include(CMakePackageConfigHelpers)
-
 write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
     VERSION ${PROJECT_VERSION}
     COMPATIBILITY SameMajorVersion
     )
-
 configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/LibraryConfig.cmake.in"
     "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
     @ONLY
     )
-
 install(
     FILES
         "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
         "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
     DESTINATION
-        . # Root Directory
+        ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
     )
-
-install(
-    FILES
-        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-    DESTINATION
-        share/cmake/${PROJECT_NAME}/
+export(EXPORT ${PROJECT_NAME}Targets
+    FILE "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Targets.cmake"
+    NAMESPACE ${PROJECT_NAME}::
     )
-
-install(EXPORT Targets
-    FILE ${PROJECT_NAME}Targets.cmake
-    DESTINATION share/cmake/${PROJECT_NAME}
-    )
+install(EXPORT ${PROJECT_NAME}Targets
+    NAMESPACE ${PROJECT_NAME}::
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+)
