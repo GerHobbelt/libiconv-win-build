@@ -3,7 +3,7 @@ iconv-for-windows
 
 iconv library for Windows (Microsoft Visual Studio Compiler) based on libiconv 1.14
 
-Soltion file is compatible with Visual Studio 2012 only.
+Soltion file is compatible with Visual Studio 2015 only.
 
 With pre-built configurations:
 
