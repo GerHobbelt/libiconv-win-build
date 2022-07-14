@@ -4,7 +4,7 @@
 
 libiconv for Windows (Microsoft Visual Studio Compiler) based on [GNU libiconv][1]
 
-Soltion file is compatible with Visual Studio 2015 only.
+Solution file is compatible with Visual Studio 2015 only.
 Update to libiconv 1.17
 
 With pre-built configurations:
