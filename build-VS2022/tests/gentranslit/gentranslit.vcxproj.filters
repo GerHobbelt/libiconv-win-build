@@ -9,10 +9,18 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
+    <Filter Include="Misc Files">
+      <UniqueIdentifier>{2c30922a-6658-4355-a7de-7f2453295568}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="gentranslit.c">
+    <ClCompile Include="..\..\..\lib\gentranslit.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\lib\translit.def">
+      <Filter>Misc Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
