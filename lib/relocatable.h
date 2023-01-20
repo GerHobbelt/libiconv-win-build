@@ -18,6 +18,8 @@
 #ifndef _RELOCATABLE_H
 #define _RELOCATABLE_H
 
+#include "iconv.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -26,23 +28,12 @@ extern "C" {
 /* This can be enabled through the configure --enable-relocatable option.  */
 #if ENABLE_RELOCATABLE
 
-/* When building a DLL, we must export some functions.  Note that because
-   this is a private .h file, we don't need to use __declspec(dllimport)
-   in any case.  */
-#if HAVE_VISIBILITY && BUILDING_DLL
-# define RELOCATABLE_DLL_EXPORTED __attribute__((__visibility__("default")))
-#elif defined _MSC_VER && BUILDING_DLL
-# define RELOCATABLE_DLL_EXPORTED __declspec(dllexport)
-#else
-# define RELOCATABLE_DLL_EXPORTED
-#endif
-
 /* Sets the original and the current installation prefix of the package.
    Relocation simply replaces a pathname starting with the original prefix
    by the corresponding pathname with the current prefix instead.  Both
    prefixes should be directory names without trailing slash (i.e. use ""
    instead of "/").  */
-extern RELOCATABLE_DLL_EXPORTED void
+extern LIBICONV_DLL_EXPORTED void
        set_relocation_prefix (const char *orig_prefix,
                               const char *curr_prefix);
 

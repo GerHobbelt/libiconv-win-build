@@ -1463,12 +1463,3 @@ typedef int ssize_t;
   #  define _UC_RESTRICT
   # endif
   
-
-
-/* On Windows, variables that may be in a DLL must be marked specially.  */
-#if defined _MSC_VER && defined _DLL
-# define DLL_VARIABLE __declspec (dllimport)
-#else
-# define DLL_VARIABLE
-#endif
-

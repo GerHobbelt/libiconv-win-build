@@ -18,14 +18,7 @@
 #ifndef _LOCALCHARSET_H
 #define _LOCALCHARSET_H
 
-#if 0 && BUILDING_LIBCHARSET
-#define LIBCHARSET_DLL_EXPORTED __attribute__((__visibility__("default")))
-#elif defined _MSC_VER && BUILDING_LIBCHARSET
-#define LIBCHARSET_DLL_EXPORTED __declspec(dllexport)
-#else
-#define LIBCHARSET_DLL_EXPORTED
-#endif
-
+#include "iconv.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -40,7 +33,7 @@ extern "C" {
    is changed; threads in multithreaded programs should not do this.
    If the canonical name cannot be determined, the result is a non-canonical
    name.  */
-extern LIBCHARSET_DLL_EXPORTED const char * locale_charset (void);
+extern LIBICONV_DLL_EXPORTED const char * locale_charset (void);
 
 /* About GNU canonical names for character encodings:
 

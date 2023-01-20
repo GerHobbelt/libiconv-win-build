@@ -36,7 +36,15 @@
 #define LIBICONV_DLL_EXPORTED
 #endif
 
-extern LIBICONV_DLL_EXPORTED int _libiconv_version; /* Likewise */
+/* On Windows, variables that may be in a DLL must be marked specially.  */
+#if defined _MSC_VER 
+# define DLL_VARIABLE LIBICONV_DLL_EXPORTED
+#else
+# define DLL_VARIABLE
+#endif
+
+
+extern DLL_VARIABLE int _libiconv_version; /* Likewise */
 
 /* We would like to #include any system header file which could define
    iconv_t, 1. in order to eliminate the risk that the user gets compilation

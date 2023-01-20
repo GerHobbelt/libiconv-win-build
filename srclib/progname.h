@@ -18,10 +18,11 @@
 #ifndef _PROGNAME_H
 #define _PROGNAME_H
 
+#include "iconv.h"
+
 /* Programs using this file should do the following in main():
      set_program_name (argv[0]);
  */
-
 
 #ifdef __cplusplus
 extern "C" {
@@ -29,12 +30,14 @@ extern "C" {
 
 
 /* String containing name the program is called with.  */
-extern DLL_VARIABLE const char *program_name;
+//extern const char *program_name;
 
 /* Set program_name, based on argv[0].
    argv0 must be a string allocated with indefinite extent, and must not be
    modified after this call.  */
 extern void set_program_name (const char *argv0);
+
+extern const char *get_program_name (void);
 
 #if ENABLE_RELOCATABLE
 

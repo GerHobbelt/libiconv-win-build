@@ -82,6 +82,10 @@ struct loop_funcs {
 #include "cjk_variants.h"
 #include "translit.h"
 
+#if defined(_MSC_VER)
+#pragma warning(disable: 4311) // suppress warnings a la: warning C4311: 'type cast': pointer truncation from 'char (*)[9]' to 'long'
+#endif
+
 /*
  * Table of all supported encodings.
  */
@@ -610,7 +614,7 @@ LIBICONV_DLL_EXPORTED const char * iconv_canonicalize (const char * name)
   return name;
 }
 
-LIBICONV_DLL_EXPORTED int _libiconv_version = _LIBICONV_VERSION;
+DLL_VARIABLE int _libiconv_version = _LIBICONV_VERSION;
 
 #if defined __FreeBSD__ && !defined __gnu_freebsd__
 /* GNU libiconv is the native FreeBSD iconv implementation since 2002.

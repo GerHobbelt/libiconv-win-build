@@ -30,7 +30,7 @@
 #include <fcntl.h>
 
 /* Ensure that iconv_no_i18n does not depend on libintl.  */
-#ifdef NO_I18N
+#if defined(NO_I18N) && 0
 # undef ENABLE_NLS
 # undef ENABLE_RELOCATABLE
 #endif
@@ -54,7 +54,7 @@ error (int status, int errnum, const char *message, ...)
   va_list args;
 
   fflush(stdout);
-  fprintf(stderr,"%s: ",program_name);
+  fprintf(stderr,"%s: ",get_program_name());
   va_start(args,message);
   vfprintf(stderr,message,args);
   va_end(args);
@@ -77,7 +77,7 @@ error (int status, int errnum, const char *message, ...)
 #define _(str) gettext(str)
 
 /* Ensure that iconv_no_i18n does not depend on libintl.  */
-#ifdef NO_I18N
+#if defined(NO_I18N)
 # define xmalloc malloc
 # define xalloc_die abort
 #endif
@@ -109,21 +109,21 @@ static void usage (int exitcode)
          Align it correctly against the first line.  */
       _("or:    iconv -l");
     fprintf(stderr, "%s\n%s\n", helpstring1, helpstring2);
-    fprintf(stderr, _("Try '%s --help' for more information.\n"), program_name);
+    fprintf(stderr, _("Try '%s --help' for more information.\n"), get_program_name());
   } else {
     /* xgettext: no-wrap */
     /* TRANSLATORS: The first line of the long usage message.
        The %s placeholder expands to the program name.  */
     printf(_("\
 Usage: %s [OPTION...] [-f ENCODING] [-t ENCODING] [INPUTFILE...]\n"),
-           program_name);
+           get_program_name());
     /* xgettext: no-wrap */
     /* TRANSLATORS: The second line of the long usage message.
        Align it correctly against the first line.
        The %s placeholder expands to the program name.  */
     printf(_("\
 or:    %s -l\n"),
-           program_name);
+           get_program_name());
     printf("\n");
     /* xgettext: no-wrap */
     /* TRANSLATORS: Description of the iconv program.  */
@@ -719,7 +719,7 @@ static int convert (iconv_t cd, int infile, const char* infilename)
         size_t res = iconv(cd,(ICONV_CONST char**)&inptr,&insize,&outptr,&outsize);
         if (outptr != outbuf) {
           int saved_errno = errno;
-          if (fwrite(outbuf,1,outptr-outbuf,stdout) < outptr-outbuf) {
+          if ((ptrdiff_t)fwrite(outbuf,1,outptr-outbuf,stdout) < outptr-outbuf) {
             status = 1;
             goto done;
           }
@@ -781,7 +781,7 @@ static int convert (iconv_t cd, int infile, const char* infilename)
     size_t res = iconv(cd,NULL,NULL,&outptr,&outsize);
     if (outptr != outbuf) {
       int saved_errno = errno;
-      if (fwrite(outbuf,1,outptr-outbuf,stdout) < outptr-outbuf) {
+      if ((ptrdiff_t)fwrite(outbuf,1,outptr-outbuf,stdout) < outptr-outbuf) {
         status = 1;
         goto done;
       }
@@ -1047,7 +1047,7 @@ int main (int argc, char* argv[])
             /* TRANSLATORS: Additional advice after an error message.
                The %s placeholder expands to the program name.  */
             _("try '%s -l' to get the list of supported encodings"),
-            program_name);
+            get_program_name());
     }
     /* Look at fromcode and tocode, to determine whether character widths
        should be determined according to legacy CJK conventions. */

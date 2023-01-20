@@ -30,7 +30,12 @@
 
 /* String containing name the program is called with.
    To be initialized by main().  */
-const char *program_name = NULL;
+static const char *program_name = NULL;
+
+const char* get_program_name(void)
+{
+	return program_name;
+}
 
 /* Set program_name, based on argv[0].
    argv0 must be a string allocated with indefinite extent, and must not be

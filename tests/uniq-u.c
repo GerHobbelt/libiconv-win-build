@@ -145,7 +145,7 @@ different (const char *old, const char *new, size_t oldlen, size_t newlen)
   order = memcmp (old, new, min (oldlen, newlen));
 
   if (order == 0)
-    return oldlen - newlen;
+    return (int)(oldlen - newlen);
   return order;
 }
 
