@@ -16,7 +16,7 @@
 
 #include "config.h"
 #ifndef ICONV_CONST
-# define ICONV_CONST
+# define ICONV_CONST const
 #endif
 
 #include <limits.h>
@@ -37,7 +37,9 @@
 
 #include "binary-io.h"
 #include "progname.h"
+#if ENABLE_RELOCATABLE
 #include "relocatable.h"
+#endif
 #include "safe-read.h"
 #include "xalloc.h"
 #include "uniwidth.h"
