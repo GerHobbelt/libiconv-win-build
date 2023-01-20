@@ -16,7 +16,15 @@
 
 /* Written by Bruno Haible <bruno@clisp.org>, 2021.  */
 
+#ifndef __cplusplus
+#if !defined(_MSC_VER) || _MSC_VER >= 1700
 #include <stdbool.h>
+#else
+typedef int bool;
+#define false 0
+#define true 1
+#endif
+#endif
 #ifdef __linux__
 # include <fcntl.h>
 # include <string.h>

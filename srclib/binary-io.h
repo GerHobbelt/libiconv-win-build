@@ -17,6 +17,10 @@
 #ifndef _BINARY_H
 #define _BINARY_H
 
+#ifdef _WIN32
+#include <io.h>
+#endif
+
 /* For systems that distinguish between text and binary I/O.
    O_BINARY is guaranteed by the gnulib <fcntl.h>. */
 #include <fcntl.h>

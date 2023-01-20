@@ -2,6 +2,7 @@
 # Complete check of a stateless encoding.
 # Usage: check-stateless SRCDIR CHARSET
 srcdir="$1"
+bindir=.
 charset="$2"
 set -e
 
@@ -9,13 +10,14 @@ set -e
 charsetf=`echo "$charset" | sed -e 's,:,-,g'`
 
 # iconv in one direction.
-./table-from "$charset" > tmp-"$charsetf".TXT
+$bindir/table-from "$charset" > tmp-"$charsetf".TXT
 
 # iconv in the other direction.
-./table-to "$charset" | sort > tmp-"$charsetf".INVERSE.TXT
+$bindir/table-to "$charset" | sort > tmp-"$charsetf".INVERSE.TXT
 
 # Check 1: charmap and iconv forward should be identical.
-cmp "${srcdir}"/"$charsetf".TXT tmp-"$charsetf".TXT 2> /dev/null
+cmp -s "${srcdir}"/"$charsetf".TXT tmp-"$charsetf".TXT
+rc1=$?
 
 # Check 2: the difference between the charmap and iconv backward.
 sed -e '/	.* 0x/d' < "${srcdir}"/"$charsetf".TXT > tmp-noprecomposed-"$charsetf".TXT
@@ -24,13 +26,16 @@ if test -f "${srcdir}"/"$charsetf".IRREVERSIBLE.TXT; then
 else
   cp tmp-noprecomposed-"$charsetf".TXT tmp-orig-"$charsetf".INVERSE.TXT
 fi
-cmp tmp-orig-"$charsetf".INVERSE.TXT tmp-"$charsetf".INVERSE.TXT 2> /dev/null
+cmp -s tmp-orig-"$charsetf".INVERSE.TXT tmp-"$charsetf".INVERSE.TXT
+rc2=$?
 
 rm -f tmp-"$charsetf".TXT tmp-"$charsetf".INVERSE.TXT tmp-noprecomposed-"$charsetf".TXT tmp-orig-"$charsetf".INVERSE.TXT
+[ $rc1 -ne 0 ] && exit $rc1
+[ $rc2 -ne 0 ] && exit $rc2
 exit 0
 # For a new encoding:
 # You can create the "$charsetf".TXT like this:
-#   ./table-from "$charset" > "$charsetf".TXT
+#   $bindir/table-from "$charset" > "$charsetf".TXT
 # You can create the "$charsetf".IRREVERSIBLE.TXT like this:
-#   ./table-to "$charset" | sort > "$charsetf".INVERSE.TXT
+#   $bindir/table-to "$charset" | sort > "$charsetf".INVERSE.TXT
 #   diff "$charsetf".TXT "$charsetf".INVERSE.TXT | grep '^[<>]' | sed -e 's,^. ,,' > "$charsetf".IRREVERSIBLE.TXT

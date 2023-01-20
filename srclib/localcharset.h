@@ -23,7 +23,7 @@
 extern "C" {
 #endif
 
-
+#define locale_charset _libiconv_locale_charset
 /* Determine the current locale's character encoding, and canonicalize it
    into one of the canonical names listed below.
    The result must not be freed; it is statically allocated.  The result

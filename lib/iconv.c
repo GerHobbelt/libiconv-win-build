@@ -231,7 +231,7 @@ static int strequal (const char* str1, const char* str2)
 }
 #endif
 
-iconv_t iconv_open (const char* tocode, const char* fromcode)
+LIBICONV_DLL_EXPORTED iconv_t iconv_open (const char* tocode, const char* fromcode)
 {
   struct conv_struct * cd;
   unsigned int from_index;
@@ -259,7 +259,7 @@ invalid:
   return (iconv_t)(-1);
 }
 
-size_t iconv (iconv_t icd,
+LIBICONV_DLL_EXPORTED size_t iconv (iconv_t icd,
               ICONV_CONST char* * inbuf, size_t *inbytesleft,
               char* * outbuf, size_t *outbytesleft)
 {
@@ -272,7 +272,7 @@ size_t iconv (iconv_t icd,
                                    outbuf,outbytesleft);
 }
 
-int iconv_close (iconv_t icd)
+LIBICONV_DLL_EXPORTED int iconv_close (iconv_t icd)
 {
   conv_t cd = (conv_t) icd;
   free(cd);
@@ -292,7 +292,7 @@ int iconv_close (iconv_t icd)
 typedef int verify_size_1[2 * (sizeof (struct conv_struct) <= sizeof (iconv_allocation_t)) - 1];
 typedef int verify_size_2[2 * (sizeof (struct wchar_conv_struct) <= sizeof (iconv_allocation_t)) - 1];
 
-int iconv_open_into (const char* tocode, const char* fromcode,
+LIBICONV_DLL_EXPORTED int iconv_open_into (const char* tocode, const char* fromcode,
                      iconv_allocation_t* resultp)
 {
   struct conv_struct * cd;
@@ -315,7 +315,7 @@ invalid:
   return -1;
 }
 
-int iconvctl (iconv_t icd, int request, void* argument)
+LIBICONV_DLL_EXPORTED int iconvctl (iconv_t icd, int request, void* argument)
 {
   conv_t cd = (conv_t) icd;
   switch (request) {
@@ -387,7 +387,7 @@ static int compare_by_name (const void * arg1, const void * arg2)
   return sign;
 }
 
-void iconvlist (int (*do_one) (unsigned int namescount,
+LIBICONV_DLL_EXPORTED void iconvlist (int (*do_one) (unsigned int namescount,
                                const char * const * names,
                                void* data),
                 void* data)
@@ -440,7 +440,7 @@ void iconvlist (int (*do_one) (unsigned int namescount,
         namesbuf[i++] = aliasbuf[j++].name;
       while (j < num_aliases && aliasbuf[j].encoding_index == ei);
       if (i > 1)
-        qsort(namesbuf, i, sizeof(const char *), compare_by_name);
+        qsort((void*)namesbuf, i, sizeof(const char *), compare_by_name);
       /* Call the callback. */
       if (do_one(i,namesbuf,data))
         break;
@@ -503,7 +503,7 @@ static const unsigned short all_canonical[] = {
 #endif
 };
 
-const char * iconv_canonicalize (const char * name)
+LIBICONV_DLL_EXPORTED const char * iconv_canonicalize (const char * name)
 {
   const char* code;
   char buf[MAX_WORD_LENGTH+10+1];
@@ -610,7 +610,7 @@ const char * iconv_canonicalize (const char * name)
   return name;
 }
 
-int _libiconv_version = _LIBICONV_VERSION;
+LIBICONV_DLL_EXPORTED int _libiconv_version = _LIBICONV_VERSION;
 
 #if defined __FreeBSD__ && !defined __gnu_freebsd__
 /* GNU libiconv is the native FreeBSD iconv implementation since 2002.

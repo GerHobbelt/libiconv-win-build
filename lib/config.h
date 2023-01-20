@@ -30,7 +30,7 @@
    iconv_open, iconv, iconv_close functions. */
 /* #undef HAVE_ICONV */
 /* Define as const if the declaration of iconv() needs const. */
-#define ICONV_CONST 
+#define ICONV_CONST const
 
 /* Define to 1 if you have the getc_unlocked() function. */
 /* #undef HAVE_GETC_UNLOCKED */
@@ -79,5 +79,9 @@
 #define mode_t int
 
 /* Define as a signed type of the same size as size_t. */
-#define ssize_t int
+#ifdef _WIN64
+typedef __int64 ssize_t;
+#else
+typedef int ssize_t;
+#endif
 

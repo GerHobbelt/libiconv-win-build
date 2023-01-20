@@ -15,7 +15,12 @@
    You should have received a copy of the GNU Lesser General Public License
    along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
-static inline int bitmap_lookup (const void *table, ucs4_t uc);
+#if defined(__cplusplus) || !defined(_MSC_VER) || _MSC_VER >= 1900
+#define LIBICONV_SRCLIB_INLINE inline
+#else
+#define LIBICONV_SRCLIB_INLINE __inline
+#endif
+static LIBICONV_SRCLIB_INLINE int bitmap_lookup(const void *table, ucs4_t uc);
 
 /* These values are currently hardcoded into gen-uni-tables.c, function
    output_predicate().  */
@@ -24,7 +29,7 @@ static inline int bitmap_lookup (const void *table, ucs4_t uc);
 #define header_3 127
 #define header_4 15
 
-static inline int
+static LIBICONV_SRCLIB_INLINE int
 bitmap_lookup (const void *table, ucs4_t uc)
 {
   unsigned int index1 = uc >> header_0;
