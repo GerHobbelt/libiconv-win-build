@@ -1,3 +1,33 @@
+2022-07-18  Bruno Haible  <bruno@clisp.org>
+
+	Make autopull.sh more suited for continuous integration.
+	* autopull.sh: Support option --one-time.
+
+2022-07-18  Bruno Haible  <bruno@clisp.org>
+
+	Move gnulib-tool invocation back from autopull.sh to autogen.sh.
+	* autogen.sh: Revert last change. Improve comments.
+	* autopull.sh: Only call 'gitsub.sh pull'.
+	* HACKING: Mention autopull.sh.
+
+2022-07-17  Bruno Haible  <bruno@clisp.org>
+
+	Split autogen.sh into autopull.sh and autogen.sh.
+	* autopull.sh: New file, based on autogen.sh.
+	* autogen.sh: Remove code that was moved to autopull.sh. Remove
+	--skip-gnulib option.
+	* Makefile.devel (all): Remove srclib/Makefile.gnulib.
+	* Makefile.in (SOURCE_FILES): Add autogen.sh.
+	* HACKING: Mention autopull.sh.
+
+2022-05-22  Bruno Haible  <bruno@clisp.org>
+
+	Add GNU Project notice.
+	* JOIN-GNU: New file. Inspired by a suggestion from José E. Marchesi
+	on the gnu-prog-discuss mailing list.
+	* README: Refer to it.
+	* Makefile.in (SOURCE_FILES): Add it.
+
 2022-05-15  Bruno Haible  <bruno@clisp.org>
 
 	Switch to libtool 2.4.7.
