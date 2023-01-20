@@ -1,4 +1,4 @@
-﻿# libiconv for Windows
+# libiconv for Windows
 ----------------------
 ![MSBuild](https://github.com/pffang/libiconv-for-Windows/actions/workflows/msbuild.yml/badge.svg)
 
