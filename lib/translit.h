@@ -4036,7 +4036,7 @@ static const short translit_page05[96] = {
   1185, 1187, 1191, 1193, 1196, 1199, 1201, 1203, /* 0x80-0x87 */
     -1, 1206,   -1,   -1,   -1,   -1,   -1,   -1, /* 0x88-0x8f */
 };
-static const short translit_page05_2[8] = {
+static const short translit_page05_1[8] = {
   1208, 1211, 1214,   -1,   -1,   -1,   -1,   -1, /* 0xf0-0xf7 */
 };
 static const short translit_page06[16] = {
@@ -4077,7 +4077,7 @@ static const short translit_page1e[160] = {
     -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1, /* 0x90-0x97 */
     -1,   -1, 1293,   -1,   -1,   -1,   -1,   -1, /* 0x98-0x9f */
 };
-static const short translit_page1e_3[8] = {
+static const short translit_page1e_1[8] = {
     -1,   -1, 1296, 1299,   -1,   -1,   -1,   -1, /* 0xf0-0xf7 */
 };
 static const short translit_page20[88] = {
@@ -4093,7 +4093,7 @@ static const short translit_page20[88] = {
   1392, 1395,   -1,   -1,   -1,   -1,   -1,   -1, /* 0x48-0x4f */
     -1,   -1,   -1,   -1,   -1,   -1,   -1, 1398, /* 0x50-0x57 */
 };
-static const short translit_page20_4[8] = {
+static const short translit_page20_1[8] = {
   1403,   -1,   -1, 1406, 1411,   -1,   -1,   -1, /* 0xa8-0xaf */
 };
 static const short translit_page21[216] = {
@@ -4139,7 +4139,7 @@ static const short translit_page22[96] = {
   1763,   -1,   -1,   -1, 1766, 1769,   -1,   -1, /* 0x60-0x67 */
     -1,   -1, 1772, 1775,   -1,   -1,   -1,   -1, /* 0x68-0x6f */
 };
-static const short translit_page22_5[48] = {
+static const short translit_page22_1[48] = {
     -1,   -1,   -1,   -1,   -1, 1778,   -1,   -1, /* 0xc0-0xc7 */
     -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1, /* 0xc8-0xcf */
     -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1, /* 0xd0-0xd7 */
@@ -4268,7 +4268,7 @@ static const short translit_page31[96] = {
   3252, 3254, 3256, 3258, 3260, 3262, 3264, 3266, /* 0x80-0x87 */
   3268, 3270, 3272, 3274, 3276, 3278, 3280,   -1, /* 0x88-0x8f */
 };
-static const short translit_page31_6[528] = {
+static const short translit_page31_1[528] = {
   3282, 3284, 3286, 3288, 3290, 3292, 3294, 3296, /* 0xf0-0xf7 */
   3298, 3300, 3302, 3304, 3306, 3308, 3310, 3312, /* 0xf8-0xff */
   /* 0x3200 */
@@ -4650,18 +4650,18 @@ static const short translit_page2f8[544] = {
    wc >= 0x02b8 && wc < 0x02e0 ? translit_page02_1[wc-0x02b8] : \
    wc >= 0x0378 && wc < 0x0460 ? translit_page03[wc-0x0378] : \
    wc >= 0x0530 && wc < 0x0590 ? translit_page05[wc-0x0530] : \
-   wc >= 0x05f0 && wc < 0x05f8 ? translit_page05_2[wc-0x05f0] : \
+   wc >= 0x05f0 && wc < 0x05f8 ? translit_page05_1[wc-0x05f0] : \
    wc >= 0x0670 && wc < 0x0680 ? translit_page06[wc-0x0670] : \
    wc == 0x0e33 ? 1229 : \
    wc >= 0x0eb0 && wc < 0x0ee0 ? translit_page0e[wc-0x0eb0] : \
    wc >= 0x0f70 && wc < 0x0f80 ? translit_page0f[wc-0x0f70] : \
    wc >= 0x1e00 && wc < 0x1ea0 ? translit_page1e[wc-0x1e00] : \
-   wc >= 0x1ef0 && wc < 0x1ef8 ? translit_page1e_3[wc-0x1ef0] : \
+   wc >= 0x1ef0 && wc < 0x1ef8 ? translit_page1e_1[wc-0x1ef0] : \
    wc >= 0x2000 && wc < 0x2058 ? translit_page20[wc-0x2000] : \
-   wc >= 0x20a8 && wc < 0x20b0 ? translit_page20_4[wc-0x20a8] : \
+   wc >= 0x20a8 && wc < 0x20b0 ? translit_page20_1[wc-0x20a8] : \
    wc >= 0x2100 && wc < 0x21d8 ? translit_page21[wc-0x2100] : \
    wc >= 0x2210 && wc < 0x2270 ? translit_page22[wc-0x2210] : \
-   wc >= 0x22c0 && wc < 0x22f0 ? translit_page22_5[wc-0x22c0] : \
+   wc >= 0x22c0 && wc < 0x22f0 ? translit_page22_1[wc-0x22c0] : \
    wc >= 0x2400 && wc < 0x24f0 ? translit_page24[wc-0x2400] : \
    wc >= 0x2500 && wc < 0x2540 ? translit_page25[wc-0x2500] : \
    wc == 0x25e6 ? 2578 : \
@@ -4672,7 +4672,7 @@ static const short translit_page2f8[544] = {
    wc >= 0x2f00 && wc < 0x2fd8 ? translit_page2f[wc-0x2f00] : \
    wc >= 0x3000 && wc < 0x30f8 ? translit_page30[wc-0x3000] : \
    wc >= 0x3130 && wc < 0x3190 ? translit_page31[wc-0x3130] : \
-   wc >= 0x31f0 && wc < 0x3400 ? translit_page31_6[wc-0x31f0] : \
+   wc >= 0x31f0 && wc < 0x3400 ? translit_page31_1[wc-0x31f0] : \
    wc >= 0xf900 && wc < 0xfa70 ? translit_pagef9[wc-0xf900] : \
    wc >= 0xfb00 && wc < 0xfb50 ? translit_pagefb[wc-0xfb00] : \
    wc >= 0xfe48 && wc < 0xfe70 ? translit_pagefe[wc-0xfe48] : \
