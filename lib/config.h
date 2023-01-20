@@ -18,10 +18,10 @@
 
 
 /* Define to 1 to enable a few rarely used encodings. */
-/* #undef ENABLE_EXTRA */
+#define ENABLE_EXTRA 1
 
 /* Define to 1 if the package shall run at any location in the filesystem. */
-/* #undef ENABLE_RELOCATABLE */
+#define ENABLE_RELOCATABLE 1
 
 /* Define to a type if <wchar.h> does not define. */
 /* #undef mbstate_t */
