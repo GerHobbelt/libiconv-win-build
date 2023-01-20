@@ -1,10 +1,14 @@
-# libiconv for Windows
+﻿# libiconv for Windows
 ----------------------
 ![MSBuild](https://github.com/pffang/libiconv-for-Windows/actions/workflows/msbuild.yml/badge.svg)
 
 The `libiconv` library for Windows (via the Microsoft Visual C/C++ Compiler (MSVC)) based on [GNU libiconv][1].
 
 Solution file updated to Visual Studio 2022 **only**.
+
+Additionally contains [Greek, Cyrillic and Armenian transliteration][5] rejected in base [GNU libiconv repository][6]
+and `gentranslit` utility project file.
+
 
 ## Version
 
@@ -100,5 +104,7 @@ Refer to the GNU license provided by `libiconv` [LGPL3.0][3].
 [1]: https://www.gnu.org/software/libiconv
 [2]: http://www.codeproject.com/Articles/302012/How-to-Build-libiconv-with-Microsoft-Visual-Studio
 [3]: https://www.gnu.org/licenses/lgpl.html
-[ 4 ]: https://visualstudio.microsoft.com/vs/community/
+[4]: https://visualstudio.microsoft.com/vs/community/
+[5]: https://github.com/yuryleb/iconv-for-windows/commit/0b4f8bcd473260948201de7d042f67d79f6e11cb
+[6]: https://savannah.gnu.org/bugs/?56304
 
