@@ -1,3 +1,41 @@
+2024-07-12  Bruno Haible  <bruno@clisp.org>
+
+	Switch to automake 1.17.
+	* autogen.sh: Update comment.
+
+2024-07-12  Bruno Haible  <bruno@clisp.org>
+
+	Assume wchar_t.
+	* include/iconv.h.in (iconv_wchar_mb_to_wc_fallback,
+	iconv_wchar_wc_to_mb_fallback): Assume HAVE_WCHAR_T is 1.
+	* src/iconv.c (ilseq_wchar_subst_buffer, subst_mb_to_wc_fallback,
+	subst_wc_to_mb_fallback, main): Likewise.
+	* configure.ac (HAVE_WCHAR_T): Remove variable.
+	(gt_TYPE_WCHAR_T): Remove invocation.
+
+2024-06-11  Bruno Haible  <bruno@clisp.org>
+
+	POSIX compliance: Interpret '-' file name as standard input.
+	Reported by Brian Inglis at <https://savannah.gnu.org/bugs/?65874>.
+	* src/iconv.c (main): Recognize the argument '-' as denoting standard
+	input.
+
+2024-05-23  Bruno Haible  <bruno@clisp.org>
+
+	INSTALL.windows: Fix MSVC instructions.
+	* INSTALL.windows: Mention the tools needed for 'windres'.
+
+2024-04-04  Bruno Haible  <bruno@clisp.org>
+
+	Fix macro file 'serial' numbers for 'aclocal --install'.
+	* gnulib-local/m4/alloca.m4: Make 'serial' effective. Set value to 100,
+	in order to override gnulib's alloca.m4.
+
+2023-12-30  Bruno Haible  <bruno@clisp.org>
+
+	Switch to autoconf 2.72.
+	* autogen.sh: Update comment.
+
 2023-09-18  Bruno Haible  <bruno@clisp.org>
 
 	Fix shared library support on Android.

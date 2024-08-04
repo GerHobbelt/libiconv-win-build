@@ -1,4 +1,4 @@
-/* Copyright (C) 2000-2023 Free Software Foundation, Inc.
+/* Copyright (C) 2000-2024 Free Software Foundation, Inc.
    This file is part of the GNU LIBICONV Library.
 
    This program is free software: you can redistribute it and/or modify
@@ -426,10 +426,8 @@ static size_t ilseq_unicode_subst_size;
 
 /* Buffer of size ilseq_byte_subst_size+1. */
 static char* ilseq_byte_subst_buffer;
-#if HAVE_WCHAR_T
 /* Buffer of size ilseq_wchar_subst_size+1. */
 static char* ilseq_wchar_subst_buffer;
-#endif
 /* Buffer of size ilseq_unicode_subst_size+1. */
 static char* ilseq_unicode_subst_buffer;
 
@@ -512,8 +510,6 @@ static void subst_uc_to_mb_fallback
                     callback_arg);
 }
 
-#if HAVE_WCHAR_T
-
 /* Auxiliary variables for subst_mb_to_wc_fallback. */
 /* Converter from locale encoding to wchar_t. */
 static iconv_t subst_mb_to_wc_cd;
@@ -593,13 +589,6 @@ static void subst_wc_to_mb_fallback
                     ilseq_wchar_subst_size*4-outbytesleft,
                     callback_arg);
 }
-
-#else
-
-#define subst_mb_to_wc_fallback NULL
-#define subst_wc_to_mb_fallback NULL
-
-#endif
 
 /* Auxiliary variables for subst_mb_to_mb_fallback. */
 /* Converter from locale encoding to target encoding. */
@@ -1009,7 +998,7 @@ int main (int argc, char* argv[])
       continue;
     }
 #endif
-    if (argv[i][0] == '-') {
+    if (argv[i][0] == '-' && argv[i][1] != '\0') {
       const char *option = argv[i] + 1;
       if (*option == '\0')
         usage(1);
@@ -1084,28 +1073,22 @@ int main (int argc, char* argv[])
     if (ilseq_byte_subst != NULL)
       ilseq_byte_subst_buffer = (char*)xmalloc((ilseq_byte_subst_size+1)*sizeof(char));
     if (!discard_unconvertible) {
-      #if HAVE_WCHAR_T
       if (ilseq_wchar_subst != NULL)
         ilseq_wchar_subst_buffer = (char*)xmalloc((ilseq_wchar_subst_size+1)*sizeof(char));
-      #endif
       if (ilseq_unicode_subst != NULL)
         ilseq_unicode_subst_buffer = (char*)xmalloc((ilseq_unicode_subst_size+1)*sizeof(char));
       if (ilseq_byte_subst != NULL) {
         subst_mb_to_uc_cd = iconv_open("UCS-4-INTERNAL","char");
         subst_mb_to_uc_temp_buffer = (unsigned int*)xmalloc(ilseq_byte_subst_size*sizeof(unsigned int));
-        #if HAVE_WCHAR_T
         subst_mb_to_wc_cd = iconv_open("wchar_t","char");
         subst_mb_to_wc_temp_buffer = (wchar_t*)xmalloc(ilseq_byte_subst_size*sizeof(wchar_t));
-        #endif
         subst_mb_to_mb_cd = iconv_open(tocode,"char");
         subst_mb_to_mb_temp_buffer = (char*)xmalloc(ilseq_byte_subst_size*4);
       }
-      #if HAVE_WCHAR_T
       if (ilseq_wchar_subst != NULL) {
         subst_wc_to_mb_cd = iconv_open(tocode,"char");
         subst_wc_to_mb_temp_buffer = (char*)xmalloc(ilseq_wchar_subst_size*4);
       }
-      #endif
       if (ilseq_unicode_subst != NULL) {
         subst_uc_to_mb_cd = iconv_open(tocode,"char");
         subst_uc_to_mb_temp_buffer = (char*)xmalloc(ilseq_unicode_subst_size*4);
@@ -1135,19 +1118,26 @@ int main (int argc, char* argv[])
       status = 0;
       for (; i < argc; i++) {
         const char* infilename = argv[i];
-        FILE* infile = fopen(infilename,"r");
-        if (infile == NULL) {
-          int saved_errno = errno;
-          error(0,saved_errno,
-                /* TRANSLATORS: The first part of an error message.
-                   It is followed by a colon and a detail message.
-                   The %s placeholder expands to the input file name.  */
-                _("%s"),
-                infilename);
-          status = 1;
+        if (strcmp(infilename,"-") == 0) {
+          status |= convert(cd,fileno(stdin),
+                            /* TRANSLATORS: A filename substitute denoting standard input.  */
+                            _("(stdin)"),
+                            tocode);
         } else {
-          status |= convert(cd,fileno(infile),infilename,tocode);
-          fclose(infile);
+          FILE* infile = fopen(infilename,"r");
+          if (infile == NULL) {
+            int saved_errno = errno;
+            error(0,saved_errno,
+                  /* TRANSLATORS: The first part of an error message.
+                     It is followed by a colon and a detail message.
+                     The %s placeholder expands to the input file name.  */
+                  _("%s"),
+                  infilename);
+            status = 1;
+          } else {
+            status |= convert(cd,fileno(infile),infilename,tocode);
+            fclose(infile);
+          }
         }
       }
     }
