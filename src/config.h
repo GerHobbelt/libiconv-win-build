@@ -980,7 +980,8 @@
 
 /* Define to 1 if C does not support variable-length arrays, and if the
    compiler does not already define this. */
-#define __STDC_NO_VLA__ 1
+// MSVC: libiconv\src\config.h(983, 9): warning C4117: macro name '__STDC_NO_VLA__' is reserved, '#define' ignored
+//#define __STDC_NO_VLA__ 1
 
 /* The _GL_ASYNC_SAFE marker should be attached to functions that are
    signal handlers (for signals other than SIGABRT, SIGPIPE) or can be
