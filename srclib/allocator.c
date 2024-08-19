@@ -19,4 +19,17 @@
 #include <config.h>
 #include "allocator.h"
 #include <stdlib.h>
-struct allocator const stdlib_allocator = { malloc, realloc, free, NULL };
+
+static void *lcl_malloc(size_t size) {
+	return malloc(size);
+}
+static void* lcl_realloc(void* ptr, size_t size) {
+	return realloc(ptr, size);
+}
+static void lcl_free(void* ptr) {
+	if (ptr != NULL) {
+		free(ptr);
+	}
+}
+
+struct allocator const stdlib_allocator = { lcl_malloc, lcl_realloc, lcl_free, NULL };
