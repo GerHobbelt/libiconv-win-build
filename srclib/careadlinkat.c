@@ -28,7 +28,9 @@
 #include <errno.h>
 #include <limits.h>
 #include <string.h>
+#ifndef _MSC_VER
 #include <unistd.h>
+#endif
 
 /* Define this independently so that stdint.h is not a prerequisite.  */
 #ifndef SIZE_MAX

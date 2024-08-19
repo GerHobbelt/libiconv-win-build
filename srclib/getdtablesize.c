@@ -18,7 +18,9 @@
 #include <config.h>
 
 /* Specification.  */
+#ifndef _MSC_VER
 #include <unistd.h>
+#endif
 
 #if defined _WIN32 && ! defined __CYGWIN__
 

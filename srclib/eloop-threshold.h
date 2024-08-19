@@ -24,7 +24,9 @@
 # include <sys/param.h>
 # define _GL_ATTRIBUTE_CONST __attribute__ ((const))
 #else
-# include <unistd.h>
+#ifndef _MSC_VER
+#include <unistd.h>
+#endif
 # include "minmax.h"
 # define __sysconf sysconf
 # if (!defined SYMLOOP_MAX \

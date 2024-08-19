@@ -28,7 +28,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>
+#ifndef _MSC_VER
 #include <unistd.h>
+#endif
 #include <sys/stat.h>
 
 /* Get declaration of _NSGetExecutablePath on Mac OS X 10.2 or newer.  */

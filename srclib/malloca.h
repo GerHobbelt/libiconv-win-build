@@ -18,7 +18,9 @@
 #ifndef _MALLOCA_H
 #define _MALLOCA_H
 
+#ifndef _MSC_VER
 #include <alloca.h>
+#endif
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdint.h>

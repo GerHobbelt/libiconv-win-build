@@ -26,7 +26,9 @@
 #include <limits.h>
 #include <stdarg.h>
 #include <stdlib.h>
+#ifndef _MSC_VER
 #include <unistd.h>
+#endif
 
 #ifdef __KLIBC__
 # define INCL_DOS

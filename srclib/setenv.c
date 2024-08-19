@@ -23,7 +23,9 @@
 # include <config.h>
 #endif
 
+#ifndef _MSC_VER
 #include <alloca.h>
+#endif
 
 /* Specification.  */
 #include <stdlib.h>

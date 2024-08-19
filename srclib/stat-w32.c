@@ -43,8 +43,11 @@
 #include <errno.h>
 #include <limits.h>
 #include <string.h>
+#ifndef _MSC_VER
 #include <unistd.h>
+#else
 #include <windows.h>
+#endif
 
 /* Specification.  */
 #include "stat-w32.h"

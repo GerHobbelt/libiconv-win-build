@@ -21,7 +21,9 @@
 #define _GL_CAREADLINKAT_H
 
 #include <fcntl.h>
+#ifndef _MSC_VER
 #include <unistd.h>
+#endif
 
 struct allocator;
 

@@ -49,7 +49,9 @@ orig_open (const char *filename, int flags, mode_t mode)
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#ifndef _MSC_VER
 #include <unistd.h>
+#endif
 
 #ifndef REPLACE_OPEN_DIRECTORY
 # define REPLACE_OPEN_DIRECTORY 0

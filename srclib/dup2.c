@@ -20,7 +20,9 @@
 #include <config.h>
 
 /* Specification.  */
+#ifndef _MSC_VER
 #include <unistd.h>
+#endif
 
 #include <errno.h>
 #include <fcntl.h>

@@ -33,7 +33,9 @@
 #include <stdbool.h>
 #include <string.h>
 #include <sys/stat.h>
+#ifndef _MSC_VER
 #include <unistd.h>
+#endif
 
 #include <eloop-threshold.h>
 #include <filename.h>

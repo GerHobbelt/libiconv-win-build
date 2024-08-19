@@ -18,5 +18,9 @@
 #include <config.h>
 
 #define _GL_UNISTD_INLINE _GL_EXTERN_INLINE
-#include "unistd.h"
+
+#ifndef _MSC_VER
+#include <unistd.h>
+#endif
+
 typedef int dummy;

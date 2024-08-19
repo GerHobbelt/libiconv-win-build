@@ -23,7 +23,9 @@
 
 #include <errno.h>
 #include <fcntl.h>
+#ifndef _MSC_VER
 #include <unistd.h>
+#endif
 
 /* Set the 'FD_CLOEXEC' flag of DESC if VALUE is true,
    or clear the flag if VALUE is false.
