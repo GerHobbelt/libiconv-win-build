@@ -719,7 +719,7 @@
 #define PACKAGE "libiconv"
 
 /* Define to the address where bug reports for this package should be sent. */
-#define PACKAGE_BUGREPORT ""
+#define PACKAGE_BUGREPORT "bug-gnu-libiconv@gnu.org"
 
 /* Define to the full name of this package. */
 #define PACKAGE_NAME "libiconv"
@@ -731,7 +731,7 @@
 #define PACKAGE_TARNAME "libiconv"
 
 /* Define to the home page for this package. */
-#define PACKAGE_URL ""
+#define PACKAGE_URL "https://www.gnu.org/software/libiconv/"
 
 /* Define to the version of this package. */
 #define PACKAGE_VERSION "1.17"
@@ -976,7 +976,9 @@
 
 /* Define to 1 if C does not support variable-length arrays, and if the
    compiler does not already define this. */
+#ifndef __STDC_NO_VLA__
 #define __STDC_NO_VLA__ 1
+#endif
 
 /* The _GL_ASYNC_SAFE marker should be attached to functions that are
    signal handlers (for signals other than SIGABRT, SIGPIPE) or can be

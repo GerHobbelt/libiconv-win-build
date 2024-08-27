@@ -55,7 +55,7 @@ set_cloexec_flag (int desc, bool value)
 
   return -1;
 
-#else /* !F_SETFD */
+#elif !defined(_MSC_VER)
 
   /* Use dup2 to reject invalid file descriptors; the cloexec flag
      will be unaffected.  */
@@ -70,6 +70,22 @@ set_cloexec_flag (int desc, bool value)
 
   /* There is nothing we can do on this kind of platform.  Punt.  */
   return 0;
+#else
+	// https://devblogs.microsoft.com/oldnewthing/20111216-00/?p=8873
+
+	/* Use dup2 to reject invalid file descriptors; the cloexec flag
+		 will be unaffected.  */
+	if (desc < 0)
+	{
+		errno = EBADF;
+		return -1;
+	}
+	if (_dup2(desc, desc) < 0)
+		/* errno is EBADF here.  */
+		return -1;
+
+	/* There is nothing we can do on this kind of platform.  Punt.  */
+	return 0;
 #endif /* !F_SETFD */
 }
 
@@ -81,5 +97,9 @@ set_cloexec_flag (int desc, bool value)
 int
 dup_cloexec (int fd)
 {
+#if defined(F_DUPFD_CLOEXEC)
   return fcntl (fd, F_DUPFD_CLOEXEC, 0);
+#else
+	return _dup(fd);//(fcntl (fd, F_DUPFD_CLOEXEC, 0);
+#endif
 }

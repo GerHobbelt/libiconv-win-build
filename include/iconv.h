@@ -41,7 +41,7 @@ extern "C" {
 #endif
 
 /* On Windows, variables that may be in a DLL must be marked specially.  */
-#if defined _MSC_VER 
+#if defined _MSC_VER && !defined DLL_VARIABLE
 # define DLL_VARIABLE LIBICONV_DLL_EXPORTED
 #else
 # define DLL_VARIABLE
