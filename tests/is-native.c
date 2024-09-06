@@ -24,6 +24,10 @@
    environment where compiled programs use a different libc than the system's
    libc.  Currently, only QEMU user-mode environments are recognized.  */
 
+#if defined(BUILD_MONOLITHIC)
+#define main   iconv_is_native_test_main
+#endif
+
 int main ()
 {
   return is_running_under_qemu_user () ? 1 : 0;

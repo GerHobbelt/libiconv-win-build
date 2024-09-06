@@ -1391,7 +1391,7 @@ static const struct alias aliases[] =
 #line 215 "./SMP/tools/aliases.gperf"
     {(int)(size_t)&((struct stringpool_t *)0)->stringpool_str442, ei_mac_iceland},
 #line 328 "./SMP/tools/aliases.gperf"
-    {(int)(size_t)&((struct stringpool_t *)0)->stringpool_str443, ei_gb18030},
+    {(int)(size_t)&((struct stringpool_t *)0)->stringpool_str443, ei_gb18030_2022},
 #line 73 "./SMP/tools/aliases.gperf"
     {(int)(size_t)&((struct stringpool_t *)0)->stringpool_str444, ei_iso8859_3},
 #line 101 "./SMP/tools/aliases.gperf"
@@ -1709,7 +1709,7 @@ static const struct alias aliases[] =
     {(int)(size_t)&((struct stringpool_t *)0)->stringpool_str921, ei_jisx0201}
   };
 
-const struct alias *
+static const struct alias *
 aliases_lookup (register const char *str, register size_t len)
 {
   if (len <= MAX_WORD_LENGTH && len >= MIN_WORD_LENGTH)

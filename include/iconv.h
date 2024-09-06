@@ -44,7 +44,9 @@ extern "C" {
 #if defined _MSC_VER && !defined DLL_VARIABLE
 # define DLL_VARIABLE LIBICONV_DLL_EXPORTED
 #else
+#if !defined DLL_VARIABLE
 # define DLL_VARIABLE
+#endif
 #endif
 
 

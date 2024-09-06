@@ -110,6 +110,10 @@ void main2 (void)
   }
 }
 
+#if defined(BUILD_MONOLITHIC)
+#define main   iconv_shiftseq_test_main
+#endif
+
 int main ()
 {
   main1 ();

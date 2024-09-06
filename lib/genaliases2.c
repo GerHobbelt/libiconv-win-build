@@ -48,17 +48,21 @@ static void emit_encoding (FILE* out1, FILE* out2, const char* tag, const char* 
     emit_alias(out1, tag, *names, c_name);
 }
 
-int main (int argc, char* argv[])
+#if defined(BUILD_MONOLITHIC)
+#define main   iconv_genaliases2_main
+#endif
+
+int main (int argc, const char** argv)
 {
   const char* tag;
-  char* aliases_file_name;
-  char* canonical_file_name;
+  const char* aliases_file_name;
+  const char* canonical_file_name;
   FILE* aliases_file;
   FILE* canonical_file;
 
   if (argc != 4) {
     fprintf(stderr, "Usage: genaliases2 tag aliases.h canonical.h\n");
-    exit(1);
+		return (1);
   }
 
   tag = argv[1];
@@ -68,13 +72,13 @@ int main (int argc, char* argv[])
   aliases_file = fopen(aliases_file_name, "w");
   if (aliases_file == NULL) {
     fprintf(stderr, "Could not open '%s' for writing\n", aliases_file_name);
-    exit(1);
+		return (1);
   }
 
   canonical_file = fopen(canonical_file_name, "w");
   if (canonical_file == NULL) {
     fprintf(stderr, "Could not open '%s' for writing\n", canonical_file_name);
-    exit(1);
+		return (1);
   }
 
 #define DEFENCODING(xxx_names,xxx,xxx_ifuncs1,xxx_ifuncs2,xxx_ofuncs1,xxx_ofuncs2) \
@@ -103,8 +107,8 @@ int main (int argc, char* argv[])
 #undef BRACIFY
 #undef DEFENCODING
   if (ferror(aliases_file) || fclose(aliases_file))
-    exit(1);
+		return (1);
   if (ferror(canonical_file) || fclose(canonical_file))
-    exit(1);
-  exit(0);
+		return (1);
+	return (0);
 }

@@ -24,6 +24,10 @@
 
 #include "binary-io.h"
 
+#if defined(BUILD_MONOLITHIC)
+#define main   iconv_genutf8_test_main
+#endif
+
 int main ()
 {
   int i1, i2, i3;
@@ -49,6 +53,6 @@ int main ()
       }
 
   if (ferror(stdout) || fclose(stdout))
-    exit(1);
-  exit(0);
+		return (1);
+	return (0);
 }

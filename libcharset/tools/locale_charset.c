@@ -5,9 +5,13 @@
 #include <locale.h>
 #include "localcharset.h"
 
+#if defined(BUILD_MONOLITHIC)
+#define main   iconv_locale_charset_main
+#endif
+
 int main ()
 {
   setlocale(LC_ALL, "");
   printf("%s\n", locale_charset());
-  exit(0);
+  return (0);
 }

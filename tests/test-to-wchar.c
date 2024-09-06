@@ -25,6 +25,10 @@
    the input is incomplete.  Based on a bug report from
    Tristan Gingold <gingold@adacore.com>.  */
 
+#if defined(BUILD_MONOLITHIC)
+#define main   iconv_to_wchar_test_main
+#endif
+
 int main ()
 {
   iconv_t cd = iconv_open ("wchar_t", "UTF-8");

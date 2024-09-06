@@ -1298,7 +1298,7 @@ static const struct alias aliases[] =
 #line 73 "lib/aliases_syssolaris.gperf"
     {(int)(size_t)&((struct stringpool_t *)0)->stringpool_str299, ei_iso8859_3},
 #line 332 "lib/aliases_syssolaris.gperf"
-    {(int)(size_t)&((struct stringpool_t *)0)->stringpool_str300, ei_gb18030},
+    {(int)(size_t)&((struct stringpool_t *)0)->stringpool_str300, ei_gb18030_2022},
 #line 93 "lib/aliases_syssolaris.gperf"
     {(int)(size_t)&((struct stringpool_t *)0)->stringpool_str301, ei_iso8859_5},
 #line 142 "lib/aliases_syssolaris.gperf"

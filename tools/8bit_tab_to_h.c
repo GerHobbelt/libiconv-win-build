@@ -68,7 +68,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-int main (int argc, char *argv[])
+int main (int argc, const char **argv)
 {
   const char* charsetname;
   const char* c_charsetname;
@@ -77,7 +77,7 @@ int main (int argc, char *argv[])
   int charset2uni[0x100];
 
   if (argc != 3 && argc != 4 && argc != 5)
-    exit(1);
+    return (1);
   charsetname = argv[1];
   c_charsetname = argv[2];
   if (argc > 3) {
@@ -111,25 +111,25 @@ int main (int argc, char *argv[])
         }
         ungetc(c,stdin);
         if (scanf("0x%x", &i) != 1 || !(i >= 0 && i < 0x100))
-          exit(1);
+					return (1);
         do { c = getc(stdin); } while (c == ' ' || c == '\t');
         if (c != EOF)
           ungetc(c,stdin);
         if (c == '\n' || c == '#')
           continue;
         if (scanf("0x%x", &charset2uni[i]) != 1)
-          exit(1);
+					return (1);
       }
     } else {
       /* Read a table of hexadecimal Unicode values. */
       for (i = 0; i < 0x100; i++) {
         if (scanf("%x", &charset2uni[i]) != 1)
-          exit(1);
+					return (1);
         if (charset2uni[i] < 0 || charset2uni[i] == 0xffff)
           charset2uni[i] = 0xfffd;
       }
       if (scanf("%x", &i) != EOF)
-        exit(1);
+				return (1);
     }
   }
 
@@ -142,7 +142,7 @@ int main (int argc, char *argv[])
       strcpy(fname,directory); strcat(fname,filename);
       f = fopen(fname,"w");
       if (f == NULL)
-        exit(1);
+				return (1);
     }
 
     fprintf(f, "/*\n");
@@ -506,7 +506,7 @@ int main (int argc, char *argv[])
     }
 
     if (ferror(f) || fclose(f))
-      exit(1);
+			return (1);
   }
 
 #if 0
@@ -567,5 +567,5 @@ int main (int argc, char *argv[])
 }
 #endif
 
-  exit(0);
+return (0);
 }

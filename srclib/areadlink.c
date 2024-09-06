@@ -21,6 +21,8 @@
 
 #include <config.h>
 
+#if ENABLE_RELOCATABLE
+
 /* Specification.  */
 #include "areadlink.h"
 
@@ -54,3 +56,5 @@ areadlink (char const *filename)
 {
   return careadlinkat (AT_FDCWD, filename, NULL, 0, NULL, careadlinkatcwd);
 }
+
+#endif

@@ -1343,7 +1343,7 @@ static const struct alias aliases[] =
 #line 284 "lib/aliases_syshpux.gperf"
     {(int)(size_t)&((struct stringpool_t *)0)->stringpool_str348, ei_jisx0208},
 #line 338 "lib/aliases_syshpux.gperf"
-    {(int)(size_t)&((struct stringpool_t *)0)->stringpool_str349, ei_gb18030},
+    {(int)(size_t)&((struct stringpool_t *)0)->stringpool_str349, ei_gb18030_2022},
 #line 368 "lib/aliases_syshpux.gperf"
     {(int)(size_t)&((struct stringpool_t *)0)->stringpool_str350, ei_iso2022_kr},
 #line 94 "lib/aliases_syshpux.gperf"

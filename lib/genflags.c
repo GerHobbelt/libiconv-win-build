@@ -81,6 +81,10 @@ static void emit_encoding (struct wctomb_funcs * ofuncs, const char* c_name)
   }
 }
 
+#if defined(BUILD_MONOLITHIC)
+#define main   iconv_genflags_main
+#endif
+
 int main ()
 {
   int bitmask = 1;
@@ -118,6 +122,6 @@ int main ()
 #undef DEFENCODING
 
   if (ferror(stdout) || fclose(stdout))
-    exit(1);
-  exit(0);
+		return (1);
+	return (0);
 }

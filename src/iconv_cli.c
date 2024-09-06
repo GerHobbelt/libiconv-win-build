@@ -102,7 +102,7 @@ error (int status, int errnum, const char *message, ...)
 static int discard_unconvertible = 0;
 static int silent = 0;
 
-static void usage (int exitcode)
+static int usage (int exitcode)
 {
   if (exitcode != 0) {
     const char* helpstring1 =
@@ -195,10 +195,10 @@ or by email to <%s>.\n"),
            "https://savannah.gnu.org/projects/libiconv",
            "bug-gnu-libiconv@gnu.org");
   }
-  exit(exitcode);
+  return (exitcode);
 }
 
-static void print_version (void)
+static int print_version (void)
 {
   printf("iconv (GNU libiconv %d.%d)\n",
          _libiconv_version >> 8, _libiconv_version & 0xff);
@@ -212,7 +212,7 @@ There is NO WARRANTY, to the extent permitted by law.\n"),
           "https://gnu.org/licenses/gpl.html");
   /* TRANSLATORS: The %s placeholder expands to an author's name.  */
   printf(_("Written by %s.\n"),"Bruno Haible");
-  exit(EXIT_SUCCESS);
+  return (EXIT_SUCCESS);
 }
 
 static int print_one (unsigned int namescount, const char * const * names,
@@ -847,7 +847,11 @@ static int convert (iconv_t cd, int infile, const char* infilename, _GL_UNUSED c
 
 /* ========================================================================= */
 
-int main (int argc, char* argv[])
+#if defined(BUILD_MONOLITHIC)
+#define main   iconv_cli_main
+#endif
+
+int main (int argc, const char** argv)
 {
   const char* fromcode = NULL;
   const char* tocode = NULL;
@@ -893,8 +897,8 @@ int main (int argc, char* argv[])
         /* --from-code=... */
         || (len >= 12 && !strncmp(argv[i],"--from-code=",12))) {
       if (len < 12)
-        if (i == argc-1) usage(1);
-      if (fromcode != NULL) usage(1);
+        if (i == argc-1) return usage(1);
+      if (fromcode != NULL) return usage(1);
       if (len < 12) {
         fromcode = argv[i+1];
         i += 2;
@@ -910,8 +914,8 @@ int main (int argc, char* argv[])
         /* --from-code=... */
         || (len >= 10 && !strncmp(argv[i],"--to-code=",10))) {
       if (len < 10)
-        if (i == argc-1) usage(1);
-      if (tocode != NULL) usage(1);
+        if (i == argc-1) return usage(1);
+      if (tocode != NULL) return usage(1);
       if (len < 10) {
         tocode = argv[i+1];
         i += 2;
@@ -933,7 +937,7 @@ int main (int argc, char* argv[])
         /* --byte-subst=... */
         || (len >= 13 && !strncmp(argv[i],"--byte-subst=",13))) {
       if (len < 13) {
-        if (i == argc-1) usage(1);
+        if (i == argc-1) return usage(1);
         ilseq_byte_subst = argv[i+1];
         i += 2;
       } else {
@@ -949,7 +953,7 @@ int main (int argc, char* argv[])
         /* --widechar-subst=... */
         || (len >= 17 && !strncmp(argv[i],"--widechar-subst=",17))) {
       if (len < 17) {
-        if (i == argc-1) usage(1);
+        if (i == argc-1) return usage(1);
         ilseq_wchar_subst = argv[i+1];
         i += 2;
       } else {
@@ -965,7 +969,7 @@ int main (int argc, char* argv[])
         /* --unicode-subst=... */
         || (len >= 16 && !strncmp(argv[i],"--unicode-subst=",16))) {
       if (len < 16) {
-        if (i == argc-1) usage(1);
+        if (i == argc-1) return usage(1);
         ilseq_unicode_subst = argv[i+1];
         i += 2;
       } else {
@@ -984,11 +988,11 @@ int main (int argc, char* argv[])
     }
     if /* --h ... --help */
        (len >= 3 && len <= 6 && !strncmp(argv[i],"--help",len)) {
-      usage(0);
+			return usage(0);
     }
     if /* --v ... --version */
        (len >= 3 && len <= 9 && !strncmp(argv[i],"--version",len)) {
-      print_version();
+      return print_version();
     }
 #if O_BINARY
     /* Backward compatibility with iconv <= 1.9.1. */
@@ -1001,12 +1005,12 @@ int main (int argc, char* argv[])
     if (argv[i][0] == '-' && argv[i][1] != '\0') {
       const char *option = argv[i] + 1;
       if (*option == '\0')
-        usage(1);
+				return usage(1);
       for (; *option; option++)
         switch (*option) {
           case 'c': discard_unconvertible = 1; break;
           case 's': silent = 1; break;
-          default: usage(1);
+          default: return usage(1);
         }
       i++;
       continue;
@@ -1015,7 +1019,7 @@ int main (int argc, char* argv[])
   }
   if (do_list) {
     if (i != 2 || i != argc)
-      usage(1);
+			return usage(1);
     iconvlist(print_one,NULL);
     status = 0;
   } else {
@@ -1149,5 +1153,5 @@ int main (int argc, char* argv[])
           _("I/O error"));
     status = 1;
   }
-  exit(status);
+  return (status);
 }

@@ -28,7 +28,11 @@
 
 #include "binary-io.h"
 
-int main (int argc, char* argv[])
+#if defined(BUILD_MONOLITHIC)
+#define main   iconv_table_to_test_main
+#endif
+
+int main (int argc, const char** argv)
 {
   const char* charset;
   iconv_t cd;
@@ -36,7 +40,7 @@ int main (int argc, char* argv[])
 
   if (argc != 2) {
     fprintf(stderr,"Usage: table-to charset\n");
-    exit(1);
+		return (1);
   }
   charset = argv[1];
 
@@ -47,7 +51,7 @@ int main (int argc, char* argv[])
   cd = iconv_open(charset,"UCS-4-INTERNAL");
   if (cd == (iconv_t)(-1)) {
     perror("iconv_open");
-    exit(1);
+		return (1);
   }
 
   /* When testing UTF-8, stop at 0x10000, otherwise the output file gets too
@@ -75,7 +79,7 @@ int main (int argc, char* argv[])
           fprintf(stderr,"0x%02X: iconv error: ",i);
           errno = saved_errno;
           perror("");
-          exit(1);
+					return (1);
         }
       } else if (result == 0) /* ignore conversions with transliteration */ {
         if (inbytesleft == 0 && outbytesleft < sizeof(buf)) {
@@ -89,7 +93,7 @@ int main (int argc, char* argv[])
           /* Language tags may silently be dropped. */
         } else {
           fprintf(stderr,"0x%02X: inbytes = %ld, outbytes = %ld\n",i,(long)(sizeof(unsigned int)-inbytesleft),(long)(sizeof(buf)-outbytesleft));
-          exit(1);
+					return (1);
         }
       }
     }
@@ -97,13 +101,13 @@ int main (int argc, char* argv[])
 
   if (iconv_close(cd) < 0) {
     perror("iconv_close");
-    exit(1);
+		return (1);
   }
 
   if (ferror(stdin) || ferror(stdout) || fclose(stdout)) {
     fprintf(stderr,"I/O error\n");
-    exit(1);
+		return (1);
   }
 
-  exit(0);
+	return (0);
 }

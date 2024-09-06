@@ -23,7 +23,7 @@
 #include <string.h>
 
 /* The name this program was run with. */
-static char *program_name;
+static const char *program_name = NULL;
 
 static void
 xalloc_fail (void)
@@ -250,8 +250,11 @@ check_file (const char *infile, const char *outfile)
   freebuffer (&lb2);
 }
 
-int
-main (int argc, char **argv)
+#if defined(BUILD_MONOLITHIC)
+#define main   iconv_uniq_u_test_main
+#endif
+
+int main (int argc, const char **argv)
 {
   const char *infile = "-";
   const char *outfile = "-";
@@ -268,10 +271,10 @@ main (int argc, char **argv)
   if (optind < argc)
     {
       fprintf (stderr, "%s: too many arguments\n", program_name);
-      exit (1);
+			return (1);
     }
 
   check_file (infile, outfile);
 
-  exit (0);
+	return (0);
 }

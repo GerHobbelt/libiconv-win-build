@@ -24,14 +24,14 @@
 #define ENTRIES  8176  /* number of lines in UniVariants file */
 #define MAX_PER_ENTRY  10  /* max number of entries per line in file */
 
-int main (int argc, char *argv[])
+int main (int argc, const char **argv)
 {
   int variants[MAX_PER_ENTRY*ENTRIES];
   int uni2index[0x10000];
   int index;
 
   if (argc != 1)
-    exit(1);
+		return (1);
 
   printf("/*\n");
   printf(" * Copyright (C) 1999-2002 Free Software Foundation, Inc.\n");
@@ -72,17 +72,17 @@ int main (int argc, char *argv[])
       }
       ungetc(c,stdin);
       if (scanf("%x",&j) != 1)
-        exit(1);
+				return (1);
       c = getc(stdin);
       if (c != '\t')
-        exit(1);
+				return (1);
       uni2index[j] = index;
       for (;;) {
         int i;
         if (scanf("%x",&i) != 1)
-          exit(1);
+					return (1);
         if (!(i >= 0x3000 && i < 0x3000+0x8000))
-          exit(1);
+					return (1);
         variants[index++] = i-0x3000;
         c = getc(stdin);
         if (c != ' ')
@@ -90,7 +90,7 @@ int main (int argc, char *argv[])
       }
       variants[index-1] |= 0x8000; /* end of list marker */
       if (c != '\n')
-        exit(1);
+				return (1);
     }
   }
   printf("static const unsigned short cjk_variants[%d] = {",index);

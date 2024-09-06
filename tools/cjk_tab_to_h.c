@@ -2088,13 +2088,13 @@ static void do_jisx0213 (const char* name)
 
 /* Main program */
 
-int main (int argc, char *argv[])
+int main (int argc, const char **argv)
 {
   const char* charsetname;
   const char* name;
 
   if (argc != 3)
-    exit(1);
+		return (1);
   charsetname = argv[1];
   name = argv[2];
 
@@ -2140,7 +2140,7 @@ int main (int argc, char *argv[])
   else if (!strcmp(name,"jisx0213"))
     do_jisx0213(name);
   else
-    exit(1);
+		return (1);
 
   return 0;
 }

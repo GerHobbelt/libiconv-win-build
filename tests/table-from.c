@@ -95,7 +95,11 @@ static const char* ucs4_decode (const unsigned int* out, unsigned int outlen)
   return hexbuf;
 }
 
-int main (int argc, char* argv[])
+#if defined(BUILD_MONOLITHIC)
+#define main   iconv_table_from_test_main
+#endif
+
+int main (int argc, const char** argv)
 {
   const char* charset;
   iconv_t cd;
@@ -103,7 +107,7 @@ int main (int argc, char* argv[])
 
   if (argc != 2) {
     fprintf(stderr,"Usage: table-from charset\n");
-    exit(1);
+		return (1);
   }
   charset = argv[1];
 
@@ -114,7 +118,7 @@ int main (int argc, char* argv[])
   cd = iconv_open("UCS-4-INTERNAL",charset);
   if (cd == (iconv_t)(-1)) {
     perror("iconv_open");
-    exit(1);
+		return (1);
   }
 
   /* When testing UTF-8, stop at 0x10000, otherwise the output file gets too
@@ -164,7 +168,7 @@ int main (int argc, char* argv[])
                       printf("0x%02X%02X%02X%02X\t%s\n",i0,i1,i2,i3,unicode);
                   } else {
                     fprintf(stderr,"%s: incomplete byte sequence\n",hexbuf(buf,4));
-                    exit(1);
+										return (1);
                   }
                 }
               }
@@ -177,13 +181,13 @@ int main (int argc, char* argv[])
 
   if (iconv_close(cd) < 0) {
     perror("iconv_close");
-    exit(1);
+		return (1);
   }
 
   if (ferror(stdin) || ferror(stdout) || fclose(stdout)) {
     fprintf(stderr,"I/O error\n");
-    exit(1);
+		return (1);
   }
 
-  exit(0);
+	return (0);
 }

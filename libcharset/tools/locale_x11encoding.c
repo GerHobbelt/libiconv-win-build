@@ -7,21 +7,21 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 
-int main (int argc, char* argv[])
+int main (int argc, const char** argv)
 {
   Display* display;
   XTextProperty textprop;
   char* input;
 
   if (argc != 1)
-    exit(1);
+		return (1);
 
   setlocale(LC_CTYPE,"");
 
   display = XOpenDisplay(NULL);
   if (display == NULL) {
     fprintf(stderr,"cannot open display\n");
-    exit(1);
+		return (1);
   }
 
   input = "";
@@ -36,5 +36,5 @@ int main (int argc, char* argv[])
 
   XCloseDisplay(display);
 
-  exit(0);
+  return (0);
 }

@@ -25,20 +25,24 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-int main (int argc, char *argv[])
+#if defined(BUILD_MONOLITHIC)
+#define main   iconv_gentranslit_main
+#endif
+
+int main (int argc, const char **argv)
 {
   unsigned int *data;
   int *uni2index;
   int index;
 
   if (argc != 1)
-    exit(1);
+		return (1);
 
   data = malloc(0x100000 * sizeof(*data));
   uni2index = malloc(0x110000 * sizeof(*uni2index));
   if (data == NULL || uni2index == NULL) {
     fprintf(stderr, "out of memory\n");
-    exit(1);
+		return (1);
   }
 
   printf("/*\n");
@@ -80,14 +84,14 @@ int main (int argc, char *argv[])
       }
       ungetc(c,stdin);
       if (scanf("%x",&j) != 1)
-        exit(1);
+				return (1);
       c = getc(stdin);
       if (c != '\t')
-        exit(1);
+				return (1);
       for (;;) {
         c = getc(stdin);
         if (c == EOF || c == '\n')
-          exit(1);
+					return (1);
         if (c == '\t')
           break;
         if (uni2index[j] < 0) {
@@ -97,14 +101,14 @@ int main (int argc, char *argv[])
         if (c >= 0x80) {
           /* Finish reading an UTF-8 character. */
           if (c < 0xc0)
-            exit(1);
+						return (1);
           else {
             unsigned int i = (c < 0xe0 ? 2 : c < 0xf0 ? 3 : c < 0xf8 ? 4 : c < 0xfc ? 5 : 6);
             c &= (1 << (8-i)) - 1;
             while (--i > 0) {
               int cc = getc(stdin);
               if (!(cc >= 0x80 && cc < 0xc0))
-                exit(1);
+								return (1);
               c <<= 6; c |= (cc & 0x3f);
             }
           }
@@ -258,6 +262,6 @@ int main (int argc, char *argv[])
   }
 
   if (ferror(stdout) || fclose(stdout))
-    exit(1);
-  exit(0);
+		return (1);
+	return (0);
 }

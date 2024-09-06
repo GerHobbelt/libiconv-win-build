@@ -1461,7 +1461,7 @@ static const struct alias aliases[] =
 #line 43 "lib/aliases_sysosf1.gperf"
     {(int)(size_t)&((struct stringpool_t *)0)->stringpool_str458, ei_utf32le},
 #line 331 "lib/aliases_sysosf1.gperf"
-    {(int)(size_t)&((struct stringpool_t *)0)->stringpool_str459, ei_gb18030},
+    {(int)(size_t)&((struct stringpool_t *)0)->stringpool_str459, ei_gb18030_2022},
 #line 113 "lib/aliases_sysosf1.gperf"
     {(int)(size_t)&((struct stringpool_t *)0)->stringpool_str460, ei_iso8859_7},
     {-1},

@@ -65,17 +65,21 @@ static void emit_encoding (FILE* out1, FILE* out2, const char* const* names, siz
     emit_alias(out1, *names, c_name);
 }
 
-int main (int argc, char* argv[])
+#if defined(BUILD_MONOLITHIC)
+#define main   iconv_genaliases_main
+#endif
+
+int main (int argc, const char** argv)
 {
-  char* aliases_file_name;
-  char* canonical_sh_file_name;
-  char* canonical_local_sh_file_name;
+  const char* aliases_file_name;
+	const char* canonical_sh_file_name;
+	const char* canonical_local_sh_file_name;
   FILE* aliases_file;
   FILE* canonical_sh_file;
 
   if (argc != 4) {
     fprintf(stderr, "Usage: genaliases aliases.gperf canonical.sh canonical_local.sh\n");
-    exit(1);
+    return (1);
   }
 
   aliases_file_name = argv[1];
@@ -85,7 +89,7 @@ int main (int argc, char* argv[])
   aliases_file = fopen(aliases_file_name, "w");
   if (aliases_file == NULL) {
     fprintf(stderr, "Could not open '%s' for writing\n", aliases_file_name);
-    exit(1);
+		return (1);
   }
 
   fprintf(aliases_file, "struct alias { int name; unsigned int encoding_index; };\n");
@@ -111,26 +115,26 @@ int main (int argc, char* argv[])
   canonical_sh_file = fopen(canonical_sh_file_name, "w" BINARY_MODE);
   if (canonical_sh_file == NULL) {
     fprintf(stderr, "Could not open '%s' for writing\n", canonical_sh_file_name);
-    exit(1);
+		return (1);
   }
 #include "encodings.def"
   if (ferror(canonical_sh_file) || fclose(canonical_sh_file))
-    exit(1);
+		return (1);
 
   canonical_sh_file = fopen(canonical_local_sh_file_name, "w" BINARY_MODE);
   if (canonical_sh_file == NULL) {
     fprintf(stderr, "Could not open '%s' for writing\n", canonical_local_sh_file_name);
-    exit(1);
+		return (1);
   }
 #include "encodings_local.def"
   if (ferror(canonical_sh_file) || fclose(canonical_sh_file))
-    exit(1);
+		return (1);
 
 #undef DEFALIAS
 #undef BRACIFY
 #undef DEFENCODING
 
   if (ferror(aliases_file) || fclose(aliases_file))
-    exit(1);
-  exit(0);
+		return (1);
+	return (0);
 }

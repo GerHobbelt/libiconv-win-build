@@ -11,5 +11,5 @@ int main ()
 {
   setlocale(LC_ALL, "");
   printf("%s\n", nl_langinfo(CODESET));
-  exit(0);
+	return (0);
 }

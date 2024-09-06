@@ -22,5 +22,5 @@ int main ()
   printf("%s\n", nl_langinfo(MON_10));
   printf("%s\n", nl_langinfo(MON_11));
   printf("%s\n", nl_langinfo(MON_12));
-  exit(0);
+	return (0);
 }
