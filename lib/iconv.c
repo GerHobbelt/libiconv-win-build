@@ -29,6 +29,10 @@
 #include <cygwin/version.h>
 #endif
 
+#if defined(_WIN32)
+#include <io.h>
+#endif
+
 #if ENABLE_EXTRA
 /*
  * Consider all system dependent encodings, for any system,

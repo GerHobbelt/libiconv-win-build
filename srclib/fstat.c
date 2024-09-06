@@ -52,7 +52,6 @@ orig_fstat (int fd, struct stat *buf)
 #include "stat-time.h"
 
 #include <errno.h>
-#include <unistd.h>
 #ifdef WINDOWS_NATIVE
 # define WIN32_LEAN_AND_MEAN
 # include <windows.h>
@@ -62,6 +61,8 @@ orig_fstat (int fd, struct stat *buf)
 #  include <io.h>
 # endif
 # include "stat-w32.h"
+#else
+#include <unistd.h>
 #endif
 
 int

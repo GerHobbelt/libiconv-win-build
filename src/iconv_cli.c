@@ -50,7 +50,7 @@
 #endif
 
 /* Ensure that iconv_no_i18n does not depend on libintl.  */
-#ifdef NO_I18N
+#if defined(NO_I18N) || defined(BUILD_MONOLITHIC)
 #include <stdarg.h>
 static void
 error (int status, int errnum, const char *message, ...)
@@ -81,7 +81,7 @@ error (int status, int errnum, const char *message, ...)
 #define _(str) gettext(str)
 
 /* Ensure that iconv_no_i18n does not depend on libintl.  */
-#if defined(NO_I18N)
+#if defined(NO_I18N) || defined(BUILD_MONOLITHIC)
 # define xmalloc malloc
 # define xalloc_die abort
 #endif
@@ -96,6 +96,48 @@ error (int status, int errnum, const char *message, ...)
    Argument can be  'char' or 'unsigned char'.  (Whereas the argument of
    <ctype.h> isdigit must be an 'unsigned char'.)  */
 #define c_isprint(c) ((c) >= ' ' && (c) <= '~')
+
+
+#if defined(BUILD_MONOLITHIC)
+
+/* Helper function, from gnulib module 'safe-read'.  */
+size_t
+safe_read(int fd, void* buf, size_t count)
+{
+	for (;;)
+	{
+		ssize_t result = read(fd, buf, count);
+
+		if (0 <= result || errno != EINTR)
+			return result;
+	}
+}
+
+static const char* progname = NULL;
+
+void set_program_name(const char* argv0)
+{
+	const char* p = strrchr(argv0, '/');
+	if (!p)
+		p = strrchr(argv0, '\\');
+	if (!p)
+		p = argv0;
+	progname = strdup(p);
+	if (!p) abort();
+
+	// strip off .exe extension, if there is any.
+	char *q = strchr(progname, '.');
+	if (q)
+		*q = 0;
+}
+
+const char* get_program_name(void)
+{
+	return progname;
+}
+
+#endif
+
 
 /* ========================================================================= */
 

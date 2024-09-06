@@ -1460,7 +1460,7 @@
 
 
 /* On Windows, variables that may be in a DLL must be marked specially.  */
-#if defined _MSC_VER && defined _DLL
+#if defined _MSC_VER && defined _DLL && !defined(BUILD_MONOLITHIC) && !defined(ICONV_STATICLIB)
 # define DLL_VARIABLE __declspec (dllimport)
 #else
 # define DLL_VARIABLE

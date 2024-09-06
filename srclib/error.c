@@ -91,7 +91,6 @@ extern void __error_at_line (int status, int errnum, const char *file_name,
 #else /* not _LIBC */
 
 # include <fcntl.h>
-# include <unistd.h>
 
 # if defined _WIN32 && ! defined __CYGWIN__
 /* Get declarations of the native Windows API functions.  */
@@ -103,6 +102,8 @@ extern void __error_at_line (int status, int errnum, const char *file_name,
 #  else
 #   include <io.h>
 #  endif
+# else
+# include <unistd.h>
 # endif
 
 /* The gnulib override of fcntl is not needed in this file.  */
