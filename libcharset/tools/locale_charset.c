@@ -9,7 +9,7 @@
 #define main   iconv_locale_charset_main
 #endif
 
-int main ()
+int main (void)
 {
   setlocale(LC_ALL, "");
   printf("%s\n", locale_charset());

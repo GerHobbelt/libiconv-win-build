@@ -28,7 +28,7 @@
 #define main   iconv_genutf8_test_main
 #endif
 
-int main ()
+int main (void)
 {
   int i1, i2, i3;
 

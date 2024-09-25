@@ -85,7 +85,7 @@ static void emit_encoding (struct wctomb_funcs * ofuncs, const char* c_name)
 #define main   iconv_genflags_main
 #endif
 
-int main ()
+int main (void)
 {
   int bitmask = 1;
   printf("/* Generated automatically by genflags. */\n");

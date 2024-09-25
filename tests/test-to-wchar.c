@@ -29,7 +29,7 @@
 #define main   iconv_to_wchar_test_main
 #endif
 
-int main ()
+int main (void)
 {
   iconv_t cd = iconv_open ("wchar_t", "UTF-8");
   if (cd == (iconv_t)(-1)) {

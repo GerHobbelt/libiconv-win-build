@@ -114,7 +114,7 @@ void main2 (void)
 #define main   iconv_shiftseq_test_main
 #endif
 
-int main ()
+int main (void)
 {
   main1 ();
   main2 ();

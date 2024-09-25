@@ -28,7 +28,7 @@
 #define main   iconv_is_native_test_main
 #endif
 
-int main ()
+int main (void)
 {
   return is_running_under_qemu_user () ? 1 : 0;
 }
