@@ -14,7 +14,7 @@ dnl action from a background debugger and to avoid core dumps.
 dnl Usage:   ...
 dnl          ]GL_NOCRASH[
 dnl          ...
-dnl          int main() { nocrash_init(); ... }
+dnl          int main(void) { nocrash_init(); ... }
 AC_DEFUN([GL_NOCRASH],[[
 #include <stdlib.h>
 #if defined __MACH__ && defined __APPLE__

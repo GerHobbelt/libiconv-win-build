@@ -56,7 +56,7 @@ set(ENABLE_RELOCATABLE ${LIBICONV_ENABLE_RELOCATABLE})
 check_function_exists(iconv HAVE_ICONV)
 check_c_source_compiles("
 	#include <langinfo.h>
-	int main() { char* cs = nl_langinfo(CODESET); return !cs; }
+	int main(void) { char* cs = nl_langinfo(CODESET); return !cs; }
 " HAVE_LANGINFO_CODESET)
 check_function_exists(mbrtowc HAVE_MBRTOWC)
 check_function_exists(mbsinit HAVE_MBSINIT)
@@ -75,7 +75,7 @@ check_c_source_compiles("
 	#else
 	size_t iconv();
 	#endif
-	int main() { return 0; }
+	int main(void) { return 0; }
 " ICONV_CONST_TEST)
 if(NOT ICONV_CONST_TEST)
 	set(ICONV_CONST "const")
