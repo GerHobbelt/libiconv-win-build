@@ -1,3 +1,58 @@
+2024-10-22  Bruno Haible  <bruno@clisp.org>
+
+	Spelling fixes.
+	From Mike Taves <mwtoews@gmail.com> in
+	<https://lists.gnu.org/archive/html/bug-gnu-libiconv/2024-10/msg00002.html>.
+	* NOTES: Fix grammar.
+	* lib/iconv_open1.h: Fix a typo in comments.
+	* lib/iso2022_jp2.h: Likewise.
+	* lib/iso2022_jpms.h: Fix English spelling in comments.
+
+2024-10-04  Bruno Haible  <bruno@clisp.org>
+
+	Fix undefined behaviour caused by shifting (unsigned char) << 24.
+	Reported by Tim Sweet <tsweet64@protonmail.com>
+	at <https://savannah.gnu.org/bugs/?66289>.
+	* lib/ucs4.h (ucs4_mbtowc): Cast 'unsigned char' values to ucs4_t before
+	shifting them to the left.
+	* lib/ucs4be.h (ucs4be_mbtowc): Likewise.
+	* lib/ucs4le.h (ucs4le_mbtowc): Likewise.
+	* lib/utf32.h (utf32_mbtowc): Likewise.
+	* lib/utf32be.h (utf32be_mbtowc): Likewise.
+	* lib/utf32le.h (utf32le_mbtowc): Likewise.
+
+2024-09-26  Bruno Haible  <bruno@clisp.org>
+
+	Switch to libtool 2.5.3.
+	* m4/libtool.m4: Update from libtool-2.5.3, with modifications:
+	2008-04-06  Bruno Haible  <bruno@clisp.org>
+		* m4/libtool.m4 (LT_INIT): When setting LIBTOOL, use
+		CONFIG_SHELL; don't assume that the Makefile.in will set SHELL
+		to ${CONFIG_SHELL}.
+	* m4/ltoptions.m4: Likewise.
+	* m4/ltsugar.m4: Likewise.
+	* m4/ltversion.m4: Likewise.
+	* m4/lt~obsolete.m4: Likewise.
+	* build-aux/ltmain.sh: Update from libtool-2.5.3, with modifications:
+	2017-07-15  Bruno Haible  <bruno@clisp.org>
+		Allow building statically linked binaries, through
+		LDFLAGS="-static". Apply patch from
+		<https://lists.gnu.org/archive/html/bug-libtool/2017-07/msg00000.html>.
+		* build-aux/ltmain.sh (func_mode_help, func_mode_link): In the
+		link mode, accept option '-static-uninstalled-libs' in place of
+		'-static', and make '-static' an equivalent of '-all-static'.
+
+2024-09-26  Bruno Haible  <bruno@clisp.org>
+
+	Update after gnulib changed.
+	* autogen.sh: Copy also build-to-host.m4 and host-cpu-c-abi.m4.
+
+2024-08-24  Bruno Haible  <bruno@clisp.org>
+
+	Fix shared library support in 32-bit mode on FreeBSD/powerpc64.
+	Patch from <https://savannah.gnu.org/patch/index.php?10469>.
+	* m4/libtool.m4: On FreeBSD, fix shlibpath_var.
+
 2024-08-14  Collin Funk  <collin.funk1@gmail.com>  (tiny change)
 
 	Prefer #include <...> for system headers.
