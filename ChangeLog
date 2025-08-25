@@ -1,3 +1,47 @@
+2025-07-07  Bruno Haible  <bruno@clisp.org>
+
+	Add support for --enable-relocatable in mingw builds on Cygwin hosts.
+	Reported by Michele Locati <michele@locati.it> in
+	<https://github.com/mlocati/gettext-iconv-windows/pull/47#issuecomment-3041406917>.
+	* configure.ac: Invoke gl_BUILD_TO_HOST_BINDIR.
+	* src/Makefile.in (bindir_c_make, localedir_c_make): New variables.
+	(iconv_no_i18n.@OBJEXT@, iconv.@OBJEXT@): Fix value of INSTALLDIR and
+	LOCALEDIR.
+
+2025-06-09  Bruno Haible  <bruno@clisp.org>
+
+	More install-tests.
+	* install-tests/test-api.c: New file.
+	* install-tests/Makefile.in (installcheck): Compile and run test-api.
+	(SOURCE_FILES): Add test-api.c.
+	(clean): Remove test-api.
+
+2025-06-09  Bruno Haible  <bruno@clisp.org>
+
+	build: Implement 'installcheck' target.
+	* install-tests/test-version.c: New file.
+	* install-tests/Makefile.in: New file.
+	* configure.ac (PATH_SEPARATOR, AUGMENT_SHLIBPATH): New variables.
+	(AC_CONFIG_FILES): Add install-tests/Makefile.
+	* Makefile.in (bindir): New variable.
+	(all, mostlyclean, clean, distclean, maintainer-clean, distdir): Recurse
+	into install-tests.
+	(installcheck): New target.
+
+2025-05-31  Bruno Haible  <bruno@clisp.org>
+
+	Switch to automake 1.18.
+	* autogen.sh: Update comment.
+	* Makefile.devel (AUTOMAKE, ACLOCAL): Use binary from automake 1.18.
+
+2025-05-30  Bruno Haible  <bruno@clisp.org>
+
+	Document the 'const char **' vs. 'char **' problem.
+	Reported by Braden Ganetsky <braden.ganetsky@gmail.com> in
+	<https://lists.gnu.org/archive/html/bug-gnu-libiconv/2025-05/msg00003.html>.
+	* man/iconv.3 (SYNOPSIS, CONFORMING TO): List also the POSIX-compatible
+	declaration. Explain the background. Mention AM_ICONV.
+
 2025-04-16  Bruno Haible  <bruno@clisp.org>
 
 	Update after gnulib changed.
