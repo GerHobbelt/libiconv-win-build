@@ -160,7 +160,6 @@ typedef void (*iconv_unicode_uc_to_mb_fallback)
                                          void* callback_arg),
               void* callback_arg,
               void* data);
-#if 1
 /* Fallback function.  Invoked when a number of bytes could not be converted to
    a wide character.  This function should process all bytes from inbuf and may
    produce replacement wide characters by calling the write_replacement
@@ -181,12 +180,6 @@ typedef void (*iconv_wchar_wc_to_mb_fallback)
                                          void* callback_arg),
               void* callback_arg,
               void* data);
-#else
-/* If the wchar_t type does not exist, these two fallback functions are never
-   invoked.  Their argument list therefore does not matter.  */
-typedef void (*iconv_wchar_mb_to_wc_fallback) ();
-typedef void (*iconv_wchar_wc_to_mb_fallback) ();
-#endif
 /* Set of fallbacks. */
 struct iconv_fallbacks {
   iconv_unicode_mb_to_uc_fallback mb_to_uc_fallback;
@@ -234,7 +227,6 @@ extern const char * iconv_canonicalize (const char * name);
 
 /* Support for relocatable packages.  */
 
-#if 0
 /* Sets the original and the current installation prefix of the package.
    Relocation simply replaces a pathname starting with the original prefix
    by the corresponding pathname with the current prefix instead.  Both
@@ -242,7 +234,6 @@ extern const char * iconv_canonicalize (const char * name);
    instead of "/").  */
 extern void libiconv_set_relocation_prefix (const char *orig_prefix,
                                             const char *curr_prefix);
-#endif
 
 #ifdef __cplusplus
 }

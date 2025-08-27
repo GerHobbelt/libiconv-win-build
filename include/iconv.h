@@ -259,7 +259,6 @@ extern LIBICONV_DLL_EXPORTED const char * iconv_canonicalize (const char * name)
 
 /* Support for relocatable packages.  */
 
-#if 0
 /* Sets the original and the current installation prefix of the package.
    Relocation simply replaces a pathname starting with the original prefix
    by the corresponding pathname with the current prefix instead.  Both
@@ -267,7 +266,6 @@ extern LIBICONV_DLL_EXPORTED const char * iconv_canonicalize (const char * name)
    instead of "/").  */
 extern LIBICONV_DLL_EXPORTED void libiconv_set_relocation_prefix (const char *orig_prefix,
                                             const char *curr_prefix);
-#endif
 
 #ifdef __cplusplus
 }
