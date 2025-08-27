@@ -20,35 +20,53 @@
 #ifndef _LIBICONV_H
 #define _LIBICONV_H
 
-#define _LIBICONV_VERSION 0x0111    /* version number: (major<<8) + minor */
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-#ifdef LIBICONV_DLL
+#define _LIBICONV_VERSION 0x0112    /* version number: (major<<8) + minor */
+
+#if defined(LIBICONV_DLL) && !defined(LIBICONV_STATIC)
+#if defined _MSC_VER 
 #ifdef BUILDING_LIBICONV
 #define LIBICONV_DLL_EXPORTED __declspec(dllexport)
 #else
 #define LIBICONV_DLL_EXPORTED __declspec(dllimport)
 #endif
 #else
+#define LIBICONV_DLL_EXPORTED __attribute__((__visibility__("default")))
+#endif
+#else
 #define LIBICONV_DLL_EXPORTED
 #endif
-extern LIBICONV_DLL_EXPORTED int _libiconv_version; /* Likewise */
+
+/* On Windows, variables that may be in a DLL must be marked specially.  */
+#if defined _MSC_VER && !defined DLL_VARIABLE
+# define DLL_VARIABLE LIBICONV_DLL_EXPORTED
+#else
+#if !defined DLL_VARIABLE
+# define DLL_VARIABLE
+#endif
+#endif
+
+
+extern DLL_VARIABLE int _libiconv_version; /* Likewise */
+
+#ifdef __cplusplus
+}
+#endif
 
 /* We would like to #include any system header file which could define
-   iconv_t, 1. in order to eliminate the risk that the user gets compilation
+   iconv_t, in order to eliminate the risk that the user gets compilation
    errors because some other system header file includes /usr/include/iconv.h
-   which defines iconv_t or declares iconv after this file, 2. when compiling
-   for LIBICONV_PLUG, we need the proper iconv_t type in order to produce
-   binary compatible code.
+   which defines iconv_t or declares iconv after this file.
    But gcc's #include_next is not portable. Thus, once libiconv's iconv.h
    has been installed in /usr/local/include, there is no way any more to
    include the original /usr/include/iconv.h. We simply have to get away
    without it.
-   Ad 1. The risk that a system header file does
+   The risk that a system header file does
    #include "iconv.h"  or  #include_next "iconv.h"
-   is small. They all do #include <iconv.h>.
-   Ad 2. The iconv_t type is a pointer type in all cases I have seen. (It
-   has to be a scalar type because (iconv_t)(-1) is a possible return value
-   from iconv_open().) */
+   is small. They all do #include <iconv.h>. */
 
 /* Define iconv_t ourselves. */
 #undef iconv_t
@@ -76,9 +94,7 @@ extern "C" {
 
 /* Allocates descriptor for code conversion from encoding ‘fromcode’ to
    encoding ‘tocode’. */
-#ifndef LIBICONV_PLUG
 #define iconv_open libiconv_open
-#endif
 extern LIBICONV_DLL_EXPORTED iconv_t iconv_open (const char* tocode, const char* fromcode);
 
 /* Converts, using conversion descriptor ‘cd’, at most ‘*inbytesleft’ bytes
@@ -86,15 +102,11 @@ extern LIBICONV_DLL_EXPORTED iconv_t iconv_open (const char* tocode, const char*
    ‘*outbuf’.
    Decrements ‘*inbytesleft’ and increments ‘*inbuf’ by the same amount.
    Decrements ‘*outbytesleft’ and increments ‘*outbuf’ by the same amount. */
-#ifndef LIBICONV_PLUG
 #define iconv libiconv
-#endif
-extern LIBICONV_DLL_EXPORTED size_t iconv (iconv_t cd, const char* * inbuf, size_t *inbytesleft, char* * outbuf, size_t *outbytesleft);
+extern LIBICONV_DLL_EXPORTED size_t iconv (iconv_t cd, const char** inbuf, size_t *inbytesleft, char** outbuf, size_t *outbytesleft);
 
 /* Frees resources allocated for conversion descriptor ‘cd’. */
-#ifndef LIBICONV_PLUG
 #define iconv_close libiconv_close
-#endif
 extern LIBICONV_DLL_EXPORTED int iconv_close (iconv_t cd);
 
 
@@ -103,12 +115,10 @@ extern LIBICONV_DLL_EXPORTED int iconv_close (iconv_t cd);
 #endif
 
 
-#ifndef LIBICONV_PLUG
-
 /* Nonstandard extensions. */
 
-#if USE_MBSTATE_T
-#if BROKEN_WCHAR_H
+#if 1 // USE_MBSTATE_T
+#if 0 // BROKEN_WCHAR_H
 /* Tru64 with Desktop Toolkit C has a bug: <stdio.h> must be included before
    <wchar.h>.
    BSD/OS 4.0.1 has a bug: <stddef.h>, <stdio.h> and <time.h> must be
@@ -128,7 +138,7 @@ extern "C" {
    A pointer to such an object can be used as an iconv_t. */
 typedef struct {
   void* dummy1[28];
-#if USE_MBSTATE_T
+#if 1 // USE_MBSTATE_T
   mbstate_t dummy2;
 #endif
 } iconv_allocation_t;
@@ -175,7 +185,7 @@ typedef void (*iconv_unicode_uc_to_mb_fallback)
                                          void* callback_arg),
               void* callback_arg,
               void* data);
-#if HAVE_WCHAR_T
+#if 1 // HAVE_WCHAR_T
 /* Fallback function.  Invoked when a number of bytes could not be converted to
    a wide character.  This function should process all bytes from inbuf and may
    produce replacement wide characters by calling the write_replacement
@@ -211,14 +221,30 @@ struct iconv_fallbacks {
   void* data;
 };
 
+/* Surfaces.
+   The concept of surfaces is described in the 'recode' manual.  */
+#define ICONV_SURFACE_NONE             0
+/* In EBCDIC encodings, 0x15 (which encodes the "newline function", see the
+   Unicode standard, chapter 5) maps to U+000A instead of U+0085.  This is
+   for interoperability with C programs and Unix environments on z/OS.  */
+#define ICONV_SURFACE_EBCDIC_ZOS_UNIX  1
+
 /* Requests for iconvctl. */
-#define ICONV_TRIVIALP            0  /* int *argument */
-#define ICONV_GET_TRANSLITERATE   1  /* int *argument */
-#define ICONV_SET_TRANSLITERATE   2  /* const int *argument */
-#define ICONV_GET_DISCARD_ILSEQ   3  /* int *argument */
-#define ICONV_SET_DISCARD_ILSEQ   4  /* const int *argument */
-#define ICONV_SET_HOOKS           5  /* const struct iconv_hooks *argument */
-#define ICONV_SET_FALLBACKS       6  /* const struct iconv_fallbacks *argument */
+#define ICONV_TRIVIALP                    0  /* int *argument */
+#define ICONV_GET_TRANSLITERATE           1  /* int *argument */
+#define ICONV_SET_TRANSLITERATE           2  /* const int *argument */
+#define ICONV_GET_DISCARD_ILSEQ           3  /* int *argument */
+#define ICONV_SET_DISCARD_ILSEQ           4  /* const int *argument */
+#define ICONV_SET_HOOKS                   5  /* const struct iconv_hooks *argument */
+#define ICONV_SET_FALLBACKS               6  /* const struct iconv_fallbacks *argument */
+#define ICONV_GET_FROM_SURFACE            7  /* unsigned int *argument */
+#define ICONV_SET_FROM_SURFACE            8  /* const unsigned int *argument */
+#define ICONV_GET_TO_SURFACE              9  /* unsigned int *argument */
+#define ICONV_SET_TO_SURFACE             10  /* const unsigned int *argument */
+#define ICONV_GET_DISCARD_INVALID        11  /* int *argument */
+#define ICONV_SET_DISCARD_INVALID        12  /* const int *argument */
+#define ICONV_GET_DISCARD_NON_IDENTICAL  13  /* int *argument */
+#define ICONV_SET_DISCARD_NON_IDENTICAL  14  /* const int *argument */
 
 /* Listing of locale independent encodings. */
 #define iconvlist libiconvlist
@@ -233,6 +259,7 @@ extern LIBICONV_DLL_EXPORTED const char * iconv_canonicalize (const char * name)
 
 /* Support for relocatable packages.  */
 
+#if 0
 /* Sets the original and the current installation prefix of the package.
    Relocation simply replaces a pathname starting with the original prefix
    by the corresponding pathname with the current prefix instead.  Both
@@ -240,11 +267,10 @@ extern LIBICONV_DLL_EXPORTED const char * iconv_canonicalize (const char * name)
    instead of "/").  */
 extern LIBICONV_DLL_EXPORTED void libiconv_set_relocation_prefix (const char *orig_prefix,
                                             const char *curr_prefix);
+#endif
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif
 
 
