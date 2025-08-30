@@ -25,6 +25,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#include "monolithic_examples.h"
+
 #if defined(BUILD_MONOLITHIC)
 #define main   iconv_gentranslit_main
 #endif

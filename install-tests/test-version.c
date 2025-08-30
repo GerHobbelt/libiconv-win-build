@@ -18,8 +18,11 @@
 
 #include <stdio.h>
 
-int
-main ()
+#if defined(BUILD_MONOLITHIC)
+#define main   iconv_test_version_main
+#endif
+
+int main(void)
 {
   if (!(_libiconv_version == _LIBICONV_VERSION))
     {

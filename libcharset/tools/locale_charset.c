@@ -5,6 +5,8 @@
 #include <locale.h>
 #include "localcharset.h"
 
+#include "monolithic_examples.h"
+
 #if defined(BUILD_MONOLITHIC)
 #define main   iconv_locale_charset_main
 #endif

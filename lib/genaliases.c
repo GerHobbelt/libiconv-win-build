@@ -20,6 +20,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "monolithic_examples.h"
+
 /* When we create shell scripts, we need to make sure that on Cygwin they have
    Unix end-of-line characters, regardless of Cygwin choice of text mode vs.
    binary mode. On z/OS, however, binary mode turns off charset tagging for

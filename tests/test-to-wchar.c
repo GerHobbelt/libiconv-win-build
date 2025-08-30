@@ -21,6 +21,8 @@
 #include <iconv.h>
 #include <errno.h>
 
+#include "monolithic_examples.h"
+
 /* This test checks that the conversion to wchar_t stops correctly when
    the input is incomplete.  Based on a bug report from
    Tristan Gingold <gingold@adacore.com>.  */

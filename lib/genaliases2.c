@@ -20,6 +20,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "monolithic_examples.h"
+
 static unsigned int counter = 0;
 
 static void emit_alias (FILE* out1, const char* tag, const char* alias, const char* c_name)

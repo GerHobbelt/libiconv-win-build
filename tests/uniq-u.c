@@ -22,6 +22,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "monolithic_examples.h"
+
 /* The name this program was run with. */
 static const char *program_name = NULL;
 

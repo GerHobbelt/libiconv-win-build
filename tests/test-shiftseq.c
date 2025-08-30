@@ -21,6 +21,8 @@
 #include <iconv.h>
 #include <errno.h>
 
+#include "monolithic_examples.h"
+
 /* This test checks that the behaviour of iconv() in the situation of an
    invalid multibyte character after a shift sequence is consistent whether
    the entire buffer is passed at once, or whether it is passed in two

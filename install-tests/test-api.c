@@ -16,8 +16,11 @@
 
 #include <iconv.h>
 
-int
-main ()
+#if defined(BUILD_MONOLITHIC)
+#define main   iconv_test_api_main
+#endif
+
+int main(void)
 {
   iconv_t cd = iconv_open ("UTF-8", "ASCII");
   if (cd == (iconv_t)(-1))

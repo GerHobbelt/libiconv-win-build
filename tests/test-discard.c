@@ -23,6 +23,8 @@
 #include <iconv.h>
 #include <errno.h>
 
+#include "monolithic_examples.h"
+
 /* This test checks the behaviour of iconv() with suffixes //IGNORE and
    //NON_IDENTICAL_DISCARD, and also the equivalent options set through
    iconvctl(). */
@@ -432,7 +434,12 @@ static void test_invd_translit (iconv_t cd)
   #endif
 }
 
-int main ()
+
+#if defined(BUILD_MONOLITHIC)
+#define main   iconv_test_discard_main
+#endif
+
+int main(void)
 {
   #ifndef _LIBICONV_VERSION
   /* For glibc: Enable locale-dependent transliterations. */

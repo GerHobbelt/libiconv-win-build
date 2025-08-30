@@ -24,6 +24,8 @@
 
 #include "binary-io.h"
 
+#include "monolithic_examples.h"
+
 #if defined(BUILD_MONOLITHIC)
 #define main   iconv_genutf8_test_main
 #endif

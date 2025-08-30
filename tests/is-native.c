@@ -19,6 +19,8 @@
 
 #include "qemu.h"
 
+#include "monolithic_examples.h"
+
 /* Returns 0 (success) in a native environment.
    Returns 1 (failure) in a cross-executing environment, that is, in an
    environment where compiled programs use a different libc than the system's

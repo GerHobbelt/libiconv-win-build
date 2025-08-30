@@ -28,6 +28,8 @@
 
 #include "binary-io.h"
 
+#include "monolithic_examples.h"
+
 /* If nonzero, ignore conversions outside Unicode plane 0. */
 static int bmp_only;
 

@@ -22,6 +22,8 @@
 #include <iconv.h>
 #include <errno.h>
 
+#include "monolithic_examples.h"
+
 /* This test checks that iconv(cd,NULL,NULL,...) does not forget about
    the byte-order state in conversions from UCS-2, UCS-4, UTF-16, UTF-32.
 
@@ -88,7 +90,12 @@ static void test_both_inputs (const char *fromcode,
   test_one_input (fromcode, le_input, input_size);
 }
 
-int main ()
+
+#if defined(BUILD_MONOLITHIC)
+#define main   iconv_test_bom_state_main
+#endif
+
+int main(void)
 {
   {
     static const char be_input[] = "\xfe\xff\x25\x26\x26\x29";

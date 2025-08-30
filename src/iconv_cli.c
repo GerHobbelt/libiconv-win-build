@@ -49,6 +49,8 @@
 #include "zos-tag.h"
 #endif
 
+#include "monolithic_examples.h"
+
 /* Ensure that iconv_no_i18n does not depend on libintl.  */
 #if defined(NO_I18N) || defined(BUILD_MONOLITHIC)
 #include <stdarg.h>
