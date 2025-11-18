@@ -12,7 +12,7 @@ and `gentranslit` utility project file.
 
 ## Version
 
-`libiconv` library version `1.17`
+`libiconv` library version `1.18-eed6782`
 
 # How To Build
 

@@ -5,23 +5,7 @@
 
 name: MSBuild
 
-on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
-
-env:
-  # Path to the solution file relative to the root of the project.
-  SOLUTION_FILE_PATH: .
-
-  # Configuration type to build.
-  # You can convert this to a build matrix if you need coverage of multiple configuration types.
-  # https://docs.github.com/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
-  BUILD_CONFIGURATION: Release
-
-permissions:
-  contents: read
+on: [push, pull_request] 
 
 jobs:
   build_matrix:
@@ -39,12 +23,49 @@ jobs:
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v2
 
-    - name: Restore NuGet packages
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: nuget restore ${{env.SOLUTION_FILE_PATH}}
-
     - name: Build
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      # Add additional options to the MSBuild command line here (like platform or verbosity level).
-      # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
+      working-directory: ${{github.workspace}}
       run: msbuild /m /p:Configuration=${{matrix.BUILD_CONFIGURATION}} /p:Platform=${{matrix.BUILD_PLATFORM}} ${{env.SOLUTION_FILE_PATH}}
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: libiconv-for-Windows_prebuilt_${{matrix.BUILD_PLATFORM}}_${{matrix.BUILD_CONFIGURATION}}
+        path: output/
+
+  UploadArtifactAndRelease:
+    runs-on: windows-latest
+    needs: build_matrix
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        sparse-checkout: |
+          include/iconv.h
+          ReleaseNote
+        sparse-checkout-cone-mode: false
+
+    - name: Download All Artifacts
+      uses: actions/download-artifact@v4
+      with:
+        pattern: libiconv-for-Windows_prebuilt*
+        path: ${{github.workspace}}/output
+        merge-multiple: true
+    
+    # - name: Display structure of workspace
+    #   run: ls -R .
+    #   working-directory: ${{github.workspace}}
+    
+    - name: Package
+      run: |
+        Compress-Archive -Path include/iconv.h,output/* -Destination output/libiconv-for-Windows_prebuilt.zip -Force
+        ls output/*.zip
+      working-directory: ${{github.workspace}}
+    
+    - name: Release
+      uses: softprops/action-gh-release@v2
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        token: ${{ secrets.RELEASETOKEN }}
+        body_path: ${{github.workspace}}/ReleaseNote
+        files: ${{github.workspace}}/output/libiconv-for-Windows_prebuilt.zip

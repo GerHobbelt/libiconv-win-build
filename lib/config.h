@@ -82,6 +82,6 @@
 #ifdef _WIN64
 typedef __int64 ssize_t;
 #else
-typedef int ssize_t;
+typedef long long ssize_t;
 #endif
 
