@@ -103,8 +103,8 @@ error (int status, int errnum, const char *message, ...)
 #if defined(BUILD_MONOLITHIC)
 
 /* Helper function, from gnulib module 'safe-read'.  */
-size_t
-safe_read(int fd, void* buf, size_t count)
+ptrdiff_t
+safe_read(int fd, void* buf, idx_t count)
 {
 	for (;;)
 	{
