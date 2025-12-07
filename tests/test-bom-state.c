@@ -49,17 +49,22 @@ static void test_one_input (const char *fromcode,
 {
   char outbuf1[3];
   char outbuf2[3];
+  char *inbuf;
+  size_t inbytesleft;
+  char *outbuf;
+  size_t outbytesleft;
+  size_t ret;
 
   iconv_t cd = iconv_open ("UTF-8", fromcode);
   if (cd == (iconv_t)(-1))
     abort ();
 
   /* Convert the first character.  */
-  char *inbuf = (char *) input;
-  size_t inbytesleft = input_size;
-  char *outbuf = outbuf1;
-  size_t outbytesleft = sizeof (outbuf1);
-  size_t ret = iconv (cd, &inbuf, &inbytesleft, &outbuf, &outbytesleft);
+  inbuf = (char *) input;
+  inbytesleft = input_size;
+  outbuf = outbuf1;
+  outbytesleft = sizeof (outbuf1);
+  ret = iconv (cd, &inbuf, &inbytesleft, &outbuf, &outbytesleft);
   if (!(ret == (size_t)(-1) && errno == E2BIG && outbytesleft == 0))
     abort ();
   if (!(memcmp (outbuf1, "\xe2\x94\xa6", 3) == 0)) /* should be U+2526 */

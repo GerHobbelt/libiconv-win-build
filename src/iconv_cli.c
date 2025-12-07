@@ -1067,6 +1067,7 @@ int main (int argc, const char** argv)
     iconvlist(print_one,NULL);
     status = 0;
   } else {
+    const char *envvar_value;
 #if O_BINARY
     SET_BINARY(fileno(stdout));
 #endif
@@ -1102,7 +1103,7 @@ int main (int argc, const char** argv)
     }
     /* For EBCDIC encodings, determine how to map 0x15 (which encodes the
        "newline function", see the Unicode standard, chapter 5).  */
-    const char *envvar_value = getenv("ICONV_EBCDIC_ZOS_UNIX");
+    envvar_value = getenv("ICONV_EBCDIC_ZOS_UNIX");
     if (envvar_value != NULL && envvar_value[0] != '\0') {
       unsigned int surface;
       iconvctl(cd, ICONV_GET_FROM_SURFACE, &surface);

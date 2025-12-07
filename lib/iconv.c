@@ -498,7 +498,7 @@ LIBICONV_DLL_EXPORTED void iconvlist (int (*do_one) (unsigned int namescount,
         namesbuf[i++] = aliasbuf[j++].name;
       while (j < num_aliases && aliasbuf[j].encoding_index == ei);
       if (i > 1)
-        qsort((void*)namesbuf, i, sizeof(const char *), compare_by_name);
+        qsort(namesbuf, i, sizeof(const char *), compare_by_name);
       /* Call the callback. */
       if (do_one(i,namesbuf,data))
         break;

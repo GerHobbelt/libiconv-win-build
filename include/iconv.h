@@ -29,20 +29,20 @@ extern "C" {
 #if defined(LIBICONV_DLL) && !defined(LIBICONV_STATIC)
 #if defined _MSC_VER 
 #ifdef BUILDING_LIBICONV
-#define LIBICONV_DLL_EXPORTED __declspec(dllexport)
+#define LIBICONV_SHLIB_EXPORTED __declspec(dllexport)
 #else
-#define LIBICONV_DLL_EXPORTED __declspec(dllimport)
+#define LIBICONV_SHLIB_EXPORTED __declspec(dllimport)
 #endif
 #else
-#define LIBICONV_DLL_EXPORTED __attribute__((__visibility__("default")))
+#define LIBICONV_SHLIB_EXPORTED __attribute__((__visibility__("default")))
 #endif
 #else
-#define LIBICONV_DLL_EXPORTED
+#define LIBICONV_SHLIB_EXPORTED
 #endif
 
 /* On Windows, variables that may be in a DLL must be marked specially.  */
 #if defined _MSC_VER && !defined DLL_VARIABLE
-# define DLL_VARIABLE LIBICONV_DLL_EXPORTED
+# define DLL_VARIABLE LIBICONV_SHLIB_EXPORTED
 #else
 #if !defined DLL_VARIABLE
 # define DLL_VARIABLE
@@ -95,7 +95,7 @@ extern "C" {
 /* Allocates descriptor for code conversion from encoding ‘fromcode’ to
    encoding ‘tocode’. */
 #define iconv_open libiconv_open
-extern LIBICONV_DLL_EXPORTED iconv_t iconv_open (const char* tocode, const char* fromcode);
+extern LIBICONV_SHLIB_EXPORTED iconv_t iconv_open (const char* tocode, const char* fromcode);
 
 /* Converts, using conversion descriptor ‘cd’, at most ‘*inbytesleft’ bytes
    starting at ‘*inbuf’, writing at most ‘*outbytesleft’ bytes starting at
@@ -103,11 +103,11 @@ extern LIBICONV_DLL_EXPORTED iconv_t iconv_open (const char* tocode, const char*
    Decrements ‘*inbytesleft’ and increments ‘*inbuf’ by the same amount.
    Decrements ‘*outbytesleft’ and increments ‘*outbuf’ by the same amount. */
 #define iconv libiconv
-extern LIBICONV_DLL_EXPORTED size_t iconv (iconv_t cd, const char** inbuf, size_t *inbytesleft, char** outbuf, size_t *outbytesleft);
+extern LIBICONV_SHLIB_EXPORTED size_t iconv (iconv_t cd, const char* * inbuf, size_t *inbytesleft, char* * outbuf, size_t *outbytesleft);
 
 /* Frees resources allocated for conversion descriptor ‘cd’. */
 #define iconv_close libiconv_close
-extern LIBICONV_DLL_EXPORTED int iconv_close (iconv_t cd);
+extern LIBICONV_SHLIB_EXPORTED int iconv_close (iconv_t cd);
 
 
 #ifdef __cplusplus
@@ -147,12 +147,12 @@ typedef struct {
    encoding ‘tocode’ into preallocated memory. Returns an error indicator
    (0 or -1 with errno set). */
 #define iconv_open_into libiconv_open_into
-extern LIBICONV_DLL_EXPORTED int iconv_open_into (const char* tocode, const char* fromcode,
+extern LIBICONV_SHLIB_EXPORTED int iconv_open_into (const char* tocode, const char* fromcode,
                             iconv_allocation_t* resultp);
 
 /* Control of attributes. */
 #define iconvctl libiconvctl
-extern LIBICONV_DLL_EXPORTED int iconvctl (iconv_t cd, int request, void* argument);
+extern LIBICONV_SHLIB_EXPORTED int iconvctl (iconv_t cd, int request, void* argument);
 
 /* Hook performed after every successful conversion of a Unicode character. */
 typedef void (*iconv_unicode_char_hook) (unsigned int uc, void* data);
@@ -241,14 +241,14 @@ struct iconv_fallbacks {
 
 /* Listing of locale independent encodings. */
 #define iconvlist libiconvlist
-extern LIBICONV_DLL_EXPORTED void iconvlist (int (*do_one) (unsigned int namescount,
+extern LIBICONV_SHLIB_EXPORTED void iconvlist (int (*do_one) (unsigned int namescount,
                                       const char * const * names,
                                       void* data),
                        void* data);
 
 /* Canonicalize an encoding name.
    The result is either a canonical encoding name, or name itself. */
-extern LIBICONV_DLL_EXPORTED const char * iconv_canonicalize (const char * name);
+extern LIBICONV_SHLIB_EXPORTED const char * iconv_canonicalize (const char * name);
 
 /* Support for relocatable packages.  */
 
@@ -257,7 +257,7 @@ extern LIBICONV_DLL_EXPORTED const char * iconv_canonicalize (const char * name)
    by the corresponding pathname with the current prefix instead.  Both
    prefixes should be directory names without trailing slash (i.e. use ""
    instead of "/").  */
-extern LIBICONV_DLL_EXPORTED void libiconv_set_relocation_prefix (const char *orig_prefix,
+extern LIBICONV_SHLIB_EXPORTED void libiconv_set_relocation_prefix (const char *orig_prefix,
                                             const char *curr_prefix);
 
 #ifdef __cplusplus

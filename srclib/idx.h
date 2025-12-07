@@ -23,7 +23,9 @@
 #include <stddef.h>
 
 /* Get PTRDIFF_MAX.  */
+#if defined(_MSC_VER) && _MSC_VER >= 1600
 #include <stdint.h>
+#endif
 
 /* The type 'idx_t' holds an (array) index or an (object) size.
    Its implementation promotes to a signed integer type,

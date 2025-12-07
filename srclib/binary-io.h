@@ -26,6 +26,11 @@
 #include <io.h>
 #endif
 
+/* This file uses _GL_INLINE_HEADER_BEGIN, _GL_INLINE, _GL_UNUSED.  */
+#if !_GL_CONFIG_H_INCLUDED
+ #error "Please include config.h first."
+#endif
+
 /* For systems that distinguish between text and binary I/O.
    O_BINARY is guaranteed by the gnulib <fcntl.h>. */
 #include <fcntl.h>
