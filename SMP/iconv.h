@@ -49,15 +49,6 @@ extern "C" {
 #define LIBICONV_SHLIB_EXPORTED
 #endif
 
-/* On Windows, variables that may be in a DLL must be marked specially.  */
-#if defined _MSC_VER && !defined DLL_VARIABLE
-# define DLL_VARIABLE LIBICONV_SHLIB_EXPORTED
-#else
-#if !defined DLL_VARIABLE
-# define DLL_VARIABLE
-#endif
-#endif
-
 
 extern DLL_VARIABLE int _libiconv_version; /* Likewise */
 
@@ -122,7 +113,6 @@ extern LIBICONV_SHLIB_EXPORTED int iconv_close (iconv_t cd);
 #ifdef __cplusplus
 }
 #endif
-
 
 /* Nonstandard extensions. */
 
