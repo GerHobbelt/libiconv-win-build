@@ -1112,18 +1112,6 @@ int main (int argc, const char** argv)
       surface |= ICONV_SURFACE_EBCDIC_ZOS_UNIX;
       iconvctl(cd, ICONV_SET_TO_SURFACE, &surface);
     }
-    /* For EBCDIC encodings, determine how to map 0x15 (which encodes the
-       "newline function", see the Unicode standard, chapter 5).  */
-    const char *envvar_value = getenv("ICONV_EBCDIC_ZOS_UNIX");
-    if (envvar_value != NULL && envvar_value[0] != '\0') {
-      unsigned int surface;
-      iconvctl(cd, ICONV_GET_FROM_SURFACE, &surface);
-      surface |= ICONV_SURFACE_EBCDIC_ZOS_UNIX;
-      iconvctl(cd, ICONV_SET_FROM_SURFACE, &surface);
-      iconvctl(cd, ICONV_GET_TO_SURFACE, &surface);
-      surface |= ICONV_SURFACE_EBCDIC_ZOS_UNIX;
-      iconvctl(cd, ICONV_SET_TO_SURFACE, &surface);
-    }
     /* Look at fromcode and tocode, to determine whether character widths
        should be determined according to legacy CJK conventions. */
     cjkcode = iconv_canonicalize(tocode);
