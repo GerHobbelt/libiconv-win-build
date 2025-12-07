@@ -33,7 +33,7 @@ extern "C" {
    is changed; threads in multithreaded programs should not do this.
    If the canonical name cannot be determined, the result is a non-canonical
    name.  */
-extern LIBICONV_DLL_EXPORTED const char * locale_charset (void);
+extern LIBICONV_SHLIB_EXPORTED const char * locale_charset (void);
 
 /* About GNU canonical names for character encodings:
 
