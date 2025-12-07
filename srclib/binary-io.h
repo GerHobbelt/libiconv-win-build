@@ -18,7 +18,7 @@
 #define _BINARY_H
 
 /* This file uses _GL_INLINE_HEADER_BEGIN, _GL_INLINE, _GL_UNUSED.  */
-#if !_GL_CONFIG_H_INCLUDED
+#if !defined(_GL_INLINE_HEADER_BEGIN) || !defined(_GL_INLINE) || !defined(_GL_UNUSED)
  #error "Please include config.h first."
 #endif
 
